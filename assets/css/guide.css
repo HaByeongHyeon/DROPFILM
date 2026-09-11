@@ -1,0 +1,157 @@
+:root {
+
+   /* =========================
+       Font Family
+    ========================= */
+
+   --font-family: "Pretendard", sans-serif;
+
+
+   /* =========================
+       Main Title
+    ========================= */
+
+   --main-title-42-size: 42px;
+   --main-title-42-weight: 600;
+
+   --main-title-60-size: 60px;
+   --main-title-60-weight: 600;
+
+
+   /* =========================
+       Sub Title
+    ========================= */
+
+   --sub-title-size: 32px;
+   --sub-title-weight: 500;
+
+
+   /* =========================
+       Description
+    ========================= */
+
+   --desc-text-size: 26px;
+   --desc-text-weight: 400;
+   --desc-text-line-height: 1.5;
+
+
+   /* =========================
+       Objects Title
+    ========================= */
+
+   --card-title-18-size: 18px;
+   --card-title-18-weight: 400;
+
+   --btn-input-text-size: 20px;
+   --btn-input-text-weight: 500;
+
+   --btn-point-text-size: 22px;
+   --btn-point-text-weight: 500;
+   --btn-point-text-line-height: 1.5;
+
+   --footer-text-size: 16px;
+   --footer-text-weight: 300;
+
+
+   /* =========================
+       Color
+    ========================= */
+
+   --color-point: #FF5A1F;
+   --color-primary: #443A32;
+   --color-sub-primary: #F1E9D8;
+   --color-background: #faf8f3;
+
+
+}
+
+
+@media (max-width: 1024px) {
+   :root {
+
+
+      /* =========================
+       Font Family
+    ========================= */
+
+      --font-family: "Pretendard", sans-serif;
+
+
+      /* =========================
+       Main Title
+    ========================= */
+
+      --main-title-42-size: clamp(28px, 3.6vw, 36px);
+      --main-title-42-weight: 500;
+
+      --main-title-60-size: clamp(30px, 4.4vw, 40px);
+      --main-title-60-weight: 600;
+
+
+      /* =========================
+       Sub Title
+    ========================= */
+
+      --sub-title-size: clamp(22px, 3.2vw, 32px);
+      --sub-title-weight: 500;
+
+
+      /* =========================
+       Description
+    ========================= */
+
+      --desc-text-size: clamp(16px, 2.2vw, 22px);
+      --desc-text-weight: 400;
+      --desc-text-line-height: 1.5;
+
+
+      /* =========================
+       Objects Title
+    ========================= */
+
+      --card-title-18-size: clamp(14px, 1.8vw, 18px);
+      --card-title-18-weight: 400;
+
+      --btn-input-text-size: clamp(15px, 2vw, 20px);
+      --btn-input-text-weight: 400;
+
+      --btn-point-text-size: clamp(16px, 2vw, 20px);
+      --btn-point-text-weight: 500;
+      --btn-point-text-line-height: 1.5;
+
+      --footer-text-size: clamp(13px, 1.6vw, 16px);
+      --footer-text-weight: 300;
+   }
+}
+
+@media (max-width: 767px) {
+   :root {
+      --font-family: "Pretendard", sans-serif;
+
+      --main-title-42-size: clamp(20px, 5.6vw, 24px);
+      --main-title-42-weight: 500;
+
+      --main-title-60-size: clamp(20px, 5.8vw, 24px);
+      --main-title-60-weight: 600;
+
+      --sub-title-size: clamp(16px, 4.5vw, 18px);
+      --sub-title-weight: 500;
+
+      --desc-text-size: clamp(15px, 4.2vw, 18px);
+      --desc-text-weight: 400;
+      --desc-text-line-height: 1.5;
+
+      --card-title-18-size: clamp(13px, 3.6vw, 16px);
+      --card-title-18-weight: 400;
+
+      --btn-input-text-size: clamp(14px, 3.8vw, 16px);
+      --btn-input-text-weight: 400;
+
+      --btn-point-text-size: clamp(14px, 3.8vw, 16px);
+      --btn-point-text-weight: 500;
+      --btn-point-text-line-height: 1.5;
+
+      --footer-text-size: clamp(12px, 3.4vw, 14px);
+      --footer-text-weight: 300;
+   }
+}

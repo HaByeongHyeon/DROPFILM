@@ -1,0 +1,75 @@
+/* =========================
+   Main Title
+========================= */
+
+.title-1 {
+    font-family: var(--font-family);
+    font-size: var(--main-title-42-size);
+    font-weight: var(--main-title-42-weight);
+}
+
+.title-2 {
+    font-family: var(--font-family);
+    font-size: var(--main-title-60-size);
+    font-weight: var(--main-title-60-weight);
+}
+
+
+/* =========================
+   Subtitle
+========================= */
+
+.subtitle {
+    font-family: var(--font-family);
+    font-size: var(--sub-title-size);
+    font-weight: var(--sub-title-weight);
+}
+
+
+/* =========================
+    Description
+ ========================= */
+
+.desc {
+    font-family: var(--font-family);
+    font-size: var(--desc-text-size);
+    font-weight: var(--desc-text-weight);
+    line-height: var(--desc-text-line-height);
+}
+
+
+/* =========================
+    Objects Text
+========================= */
+
+.card-title {
+    font-family: var(--font-family);
+    font-size: var(--card-title-18-size);
+    font-weight: var(--card-title-18-weight);
+}
+
+.btn {
+    font-family: var(--font-family);
+    font-size: var(--btn-input-text-size);
+    font-weight: var(--btn-input-text-weight);
+}
+
+input {
+    font-family: var(--font-family);
+    font-size: var(--btn-input-text-size);
+    font-weight: var(--btn-input-text-weight);
+}
+
+.btn-point {
+    font-family: var(--font-family);
+    font-size: var(--btn-point-tex-size);
+    font-weight: var(--btn-point-tex-weight);
+    line-height: var(--btn-point-text-line-height);
+    color: var(--color-point);
+}
+
+.footer-text {
+    font-family: var(--font-family);
+    font-size: var(--footer-text-size);
+    font-weight: var(--footer-text-weight);
+}
