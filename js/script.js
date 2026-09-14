@@ -1,11 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
-    loadComponents().then(initHeader);
+    loadComponents().then(function () {
+        initHeader();
+        if (typeof ScrollTrigger !== "undefined") {
+            ScrollTrigger.refresh();
+        }
+    });
     initAboutScroll();
     initPromotionScroll();
     initMeritScroll();
     initComparisonPlanFade();
     initComparisonPlanSequence();
-    initSatisfactionListFade();
     initSatisfactionListSequence();
     initSlideScroll();
     initBrandSwiper();
@@ -392,6 +396,7 @@ function initAboutScroll() {
                     pin: true,
                     pinSpacing: true,
                     scrub: 0.35,
+                    fastScrollEnd: true,
                     invalidateOnRefresh: true,
                     onUpdate: function (self) {
                         if (self.progress >= imgEnd) {
@@ -456,6 +461,7 @@ function initAboutScroll() {
                     pin: true,
                     pinSpacing: true,
                     scrub: 0.35,
+                    fastScrollEnd: true,
                     invalidateOnRefresh: true
                 }
             });
@@ -555,6 +561,7 @@ function initMeritScroll() {
             pin: true,
             pinSpacing: true,
             scrub: 0.35,
+            fastScrollEnd: true,
             invalidateOnRefresh: true
         }
     });
@@ -801,7 +808,8 @@ function initSatisfactionListSequence() {
     var timeline = gsap.timeline({
         defaults: {
             duration: 0.4,
-            ease: "power2.out"
+            ease: "power2.out",
+            overwrite: "auto"
         },
         scrollTrigger: {
             id: "satisfaction-list-sequence",
@@ -957,6 +965,7 @@ function initSlideScroll() {
             pin: true,
             pinSpacing: true,
             scrub: 0.35,
+            fastScrollEnd: true,
             invalidateOnRefresh: true,
             onRefresh: function () {
                 Array.prototype.forEach.call(slides, function (slide, index) {
@@ -1236,6 +1245,7 @@ function initEffectScroll() {
             pin: true,
             pinSpacing: true,
             scrub: 0.35,
+            fastScrollEnd: true,
             invalidateOnRefresh: true
         }
     });

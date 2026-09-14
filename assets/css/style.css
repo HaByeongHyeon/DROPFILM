@@ -13,6 +13,7 @@
     height: 100%;
 
     padding: 328px 0 288px;
+    background-color: #fff;
 }
 
 .about-con {
@@ -785,6 +786,7 @@
 .effect-sec {
     padding: 120px 0 680px;
     padding-bottom: max(680px, var(--effect-clearance, 680px));
+    background-color: #fff;
 }
 
 .effect-title {
@@ -1103,7 +1105,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        overflow-x: clip;
         box-sizing: border-box;
     }
 
@@ -1240,7 +1241,6 @@
         padding: 0 clamp(16px, 4vw, 40px);
         justify-content: center;
         align-items: center;
-        overflow-x: clip;
         box-sizing: border-box;
     }
 
@@ -1431,7 +1431,6 @@
 
     .effect-sec {
         padding: clamp(72px, 10vw, 112px) 0 max(70vh, var(--effect-clearance, 70vh));
-        overflow-x: clip;
     }
 
     .effect-title,
@@ -1892,6 +1891,89 @@
     .card-text-bottom > p,
     .card-text-top > p {
         font-size: clamp(10px, 2.8vw, 12px);
+    }
+
+    .effect-sec .card-wrap .effect-card {
+        --effect-panel-gap: clamp(14px, 2.8vw, 26px);
+        --effect-text-inset: clamp(12px, 1.8vw, 20px);
+        overflow: visible;
+    }
+
+    .effect-sec .card-wrap .effect-card .card-top,
+    .effect-sec .card-wrap .effect-card .card-bottom {
+        overflow: visible;
+    }
+
+    .effect-sec .card-wrap .effect-card:nth-child(1) .card-bottom,
+    .effect-sec .card-wrap .effect-card:nth-child(2) .card-bottom {
+        visibility: hidden;
+        pointer-events: none;
+    }
+
+    .effect-sec .card-wrap .effect-card:nth-child(1) .card-bottom .card-text-bottom,
+    .effect-sec .card-wrap .effect-card:nth-child(2) .card-bottom .card-text-bottom {
+        visibility: visible;
+        pointer-events: auto;
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: flex-start;
+        top: auto;
+        bottom: calc(200% + (2 * var(--effect-panel-gap)) + var(--effect-text-inset));
+        left: clamp(10px, 1.8vw, 20px);
+        right: clamp(8px, 1.4vw, 16px);
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .effect-sec .card-wrap .effect-card:nth-child(1) .card-text-bottom > h3,
+    .effect-sec .card-wrap .effect-card:nth-child(2) .card-text-bottom > h3 {
+        margin-top: 6px;
+        margin-bottom: 0;
+    }
+
+    .effect-sec .card-wrap .effect-card:nth-child(1) .card-text-bottom > p,
+    .effect-sec .card-wrap .effect-card:nth-child(2) .card-text-bottom > p {
+        margin-top: 6px;
+        margin-bottom: 0;
+    }
+
+    .effect-sec .card-wrap .effect-card:nth-child(2) .card-text-top {
+        visibility: hidden;
+        pointer-events: none;
+    }
+
+    .effect-sec .card-wrap .effect-card:nth-child(3) .card-top,
+    .effect-sec .card-wrap .effect-card:nth-child(4) .card-top {
+        visibility: hidden;
+        pointer-events: none;
+    }
+
+    .effect-sec .card-wrap .effect-card:nth-child(4) .card-top {
+        z-index: 2;
+    }
+
+    .effect-sec .card-wrap .effect-card:nth-child(4) .card-top .card-text-top {
+        visibility: visible;
+        pointer-events: auto;
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: flex-start;
+        bottom: auto;
+        top: calc(200% + (2 * var(--effect-panel-gap)) + var(--effect-text-inset));
+        left: clamp(10px, 1.8vw, 20px);
+        right: clamp(8px, 1.4vw, 16px);
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .effect-sec .card-wrap .effect-card:nth-child(4) .card-text-top > h3 {
+        margin-top: 0;
+        margin-bottom: 6px;
+    }
+
+    .effect-sec .card-wrap .effect-card:nth-child(4) .card-text-top > p {
+        margin-top: 0;
+        margin-bottom: 6px;
     }
 
     .contact-sec {
