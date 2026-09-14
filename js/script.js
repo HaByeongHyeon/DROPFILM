@@ -523,10 +523,8 @@ function initAboutScroll() {
                 scrollTrigger: {
                     id: "about-pin",
                     trigger: section,
-                    start: "top top",
-                    end: "+=140%",
-                    pin: true,
-                    pinSpacing: true,
+                    start: "top 80%",
+                    end: "bottom 20%",
                     scrub: 0.35,
                     invalidateOnRefresh: true,
                     onUpdate: function (self) {
@@ -591,10 +589,8 @@ function initAboutScroll() {
                 scrollTrigger: {
                     id: "about-pin",
                     trigger: section,
-                    start: "top top",
-                    end: "+=150%",
-                    pin: true,
-                    pinSpacing: true,
+                    start: "top 80%",
+                    end: "bottom 20%",
                     scrub: 0.35,
                     invalidateOnRefresh: true
                 }
@@ -689,10 +685,8 @@ function initMeritScroll() {
         scrollTrigger: {
             id: "merit-pin",
             trigger: section,
-            start: "top top",
-            end: "+=280%",
-            pin: true,
-            pinSpacing: true,
+            start: "top 80%",
+            end: "bottom 20%",
             scrub: 1,
             invalidateOnRefresh: true
         }
@@ -1085,12 +1079,8 @@ function initSlideScroll() {
         scrollTrigger: {
             id: "slide-pin",
             trigger: section,
-            start: "top top",
-            end: function () {
-                return "+=" + window.innerHeight * (slides.length * 1.4 + 2.2);
-            },
-            pin: true,
-            pinSpacing: true,
+            start: "top 80%",
+            end: "bottom 20%",
             scrub: 0.35,
             invalidateOnRefresh: true,
             onRefresh: function () {
@@ -1405,13 +1395,8 @@ function initEffectScroll() {
         scrollTrigger: {
             id: "effect-pin",
             trigger: section,
-            start: "top top",
-            end: function () {
-                var factor = window.matchMedia("(max-width: 1024px)").matches ? 2.8 : 2.4;
-                return "+=" + (window.innerHeight * factor);
-            },
-            pin: true,
-            pinSpacing: true,
+            start: "top 80%",
+            end: "bottom 20%",
             scrub: 0.35,
             invalidateOnRefresh: true,
             onUpdate: function () {
