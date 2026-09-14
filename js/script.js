@@ -1,10 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
-    loadComponents().then(function () {
+    var componentsReady = loadComponents().then(function () {
         initHeader();
-        if (typeof ScrollTrigger !== "undefined") {
-            ScrollTrigger.refresh();
-        }
     });
+
     initAboutScroll();
     initPromotionScroll();
     initMeritScroll();
@@ -16,16 +14,79 @@ document.addEventListener("DOMContentLoaded", function () {
     initEffectScroll();
     initContactForm();
 
+    Promise.all([
+        componentsReady.then(function () {
+            return waitForImages();
+        }),
+        waitForFonts(),
+        waitForWindowLoad()
+    ]).then(function () {
+        refreshScrollLayout();
+    });
+
     var refreshTimer;
     window.addEventListener("resize", function () {
         clearTimeout(refreshTimer);
         refreshTimer = setTimeout(function () {
-            if (typeof ScrollTrigger !== "undefined") {
-                ScrollTrigger.refresh();
-            }
+            refreshScrollLayout();
         }, 200);
     });
 });
+
+function waitForWindowLoad() {
+    return new Promise(function (resolve) {
+        if (document.readyState === "complete") {
+            resolve();
+            return;
+        }
+
+        window.addEventListener("load", resolve, { once: true });
+    });
+}
+
+function waitForFonts() {
+    if (document.fonts && document.fonts.ready) {
+        return document.fonts.ready.catch(function () {});
+    }
+
+    return Promise.resolve();
+}
+
+function waitForImages() {
+    var imgs = Array.prototype.slice.call(document.images);
+
+    return Promise.all(imgs.map(function (img) {
+        if (img.complete && img.naturalWidth) {
+            return img.decode ? img.decode().catch(function () {}) : Promise.resolve();
+        }
+
+        return new Promise(function (resolve) {
+            function done() {
+                if (img.decode) {
+                    img.decode().then(resolve).catch(resolve);
+                    return;
+                }
+
+                resolve();
+            }
+
+            img.addEventListener("load", done, { once: true });
+            img.addEventListener("error", resolve, { once: true });
+        });
+    }));
+}
+
+function refreshScrollLayout() {
+    if (typeof ScrollTrigger === "undefined") {
+        return;
+    }
+
+    requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+            ScrollTrigger.refresh();
+        });
+    });
+}
 
 function loadComponents() {
     var slots = document.querySelectorAll("[data-component]");
@@ -54,6 +115,100 @@ function loadComponents() {
     );
 }
 
+function isPinRangeActive(scroll, ids) {
+    return ScrollTrigger.getAll().some(function (st) {
+        if (!st.pin || st.vars.id === "header-hide") {
+            return false;
+        }
+        if (ids && ids.indexOf(st.vars.id) === -1) {
+            return false;
+        }
+        return scroll >= st.start && scroll <= st.end + 1;
+    });
+}
+
+function effectCardsOverlapHeader(header) {
+    var headerBox = header.getBoundingClientRect();
+    var effect = document.querySelector(".effect-sec");
+    var nodes;
+    var i;
+    var rect;
+    var cs;
+
+    if (!effect) {
+        return false;
+    }
+
+    nodes = effect.querySelectorAll(".card-top, .card-bottom, .card-wrap");
+
+    for (i = 0; i < nodes.length; i++) {
+        cs = window.getComputedStyle(nodes[i]);
+        if (Number(cs.opacity) < 0.05 || cs.visibility === "hidden") {
+            continue;
+        }
+        rect = nodes[i].getBoundingClientRect();
+        if (rect.width < 2 || rect.height < 2) {
+            continue;
+        }
+        if (rect.bottom <= 0 || rect.top >= window.innerHeight) {
+            continue;
+        }
+        if (rect.bottom > headerBox.top && rect.top < headerBox.bottom) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function createHeaderHideTrigger(header, options) {
+    var existing = ScrollTrigger.getById("header-hide");
+    if (existing) {
+        existing.kill();
+    }
+
+    var showAnim = gsap.from(header, {
+        yPercent: -100,
+        paused: true,
+        duration: 0.25,
+        ease: "power2.out"
+    }).progress(1);
+
+    ScrollTrigger.create({
+        id: "header-hide",
+        start: "top top",
+        end: "max",
+        onUpdate: function (self) {
+            if (self.scroll() <= header.offsetHeight) {
+                showAnim.play();
+                return;
+            }
+
+            var covering = isPinRangeActive(self.scroll(), options.pinIds);
+
+            if (!covering && effectCardsOverlapHeader(header)) {
+                covering = true;
+            }
+
+            if (covering) {
+                showAnim.reverse();
+                return;
+            }
+
+            if (options.hideOnScrollDown) {
+                if (self.direction === -1) {
+                    showAnim.play();
+                } else {
+                    showAnim.reverse();
+                }
+                return;
+            }
+
+            showAnim.play();
+        }
+    });
+}
+
 function initHeader() {
     var header = document.querySelector(".header");
     if (!header) {
@@ -71,34 +226,9 @@ function initHeader() {
     var mm = gsap.matchMedia();
 
     mm.add("(min-width: 1025px)", function () {
-        var existing = ScrollTrigger.getById("header-hide");
-        if (existing) {
-            existing.kill();
-        }
-
-        var showAnim = gsap.from(header, {
-            yPercent: -100,
-            paused: true,
-            duration: 0.25,
-            ease: "power2.out"
-        }).progress(1);
-
-        ScrollTrigger.create({
-            id: "header-hide",
-            start: "top top",
-            end: "max",
-            onUpdate: function (self) {
-                if (self.scroll() <= header.offsetHeight) {
-                    showAnim.play();
-                    return;
-                }
-
-                if (self.direction === -1) {
-                    showAnim.play();
-                } else {
-                    showAnim.reverse();
-                }
-            }
+        createHeaderHideTrigger(header, {
+            hideOnScrollDown: true,
+            pinIds: null
         });
 
         return function () {
@@ -300,7 +430,7 @@ function initPromotionScroll() {
     ScrollTrigger.create({
         id: "promotion-intro",
         trigger: section,
-        start: "top top",
+        start: "top 80%",
         once: true,
         onEnter: function () {
             timeline.play();
@@ -500,8 +630,6 @@ function initAboutScroll() {
                 gsap.set(textItems, { clearProps: "opacity,transform" });
             };
         });
-
-        ScrollTrigger.refresh();
     }
 
     if (img.complete) {
@@ -565,7 +693,7 @@ function initMeritScroll() {
             end: "+=280%",
             pin: true,
             pinSpacing: true,
-            scrub: 0.35,
+            scrub: 1,
             invalidateOnRefresh: true
         }
     });
@@ -611,10 +739,6 @@ function initMeritScroll() {
     });
 
     timeline.to({}, { duration: 1 });
-
-    window.addEventListener("load", function () {
-        ScrollTrigger.refresh();
-    }, { once: true });
 }
 
 function setMeritTextProgress(el, progress) {
@@ -1175,8 +1299,50 @@ function initEffectScroll() {
 
         var sectionRect = section.getBoundingClientRect();
         var wrapRect = wrap.getBoundingClientRect();
-        var wrapCenter = wrapRect.top - sectionRect.top + wrapRect.height / 2;
-        var delta = window.innerHeight / 2 - wrapCenter;
+        var wrapTopInSection = wrapRect.top - sectionRect.top;
+        var wrapH = wrapRect.height;
+        var wrapCenter = wrapTopInSection + wrapH / 2;
+        var viewCenter = window.innerHeight / 2;
+        var delta = viewCenter - wrapCenter;
+
+        var img = wrap.querySelector(".effect-card > img");
+        var cardH = img ? img.getBoundingClientRect().height : 0;
+        var gap = getCardGap();
+        var ys = getCardYs();
+        var minCardY = 0;
+        var maxCardY = 0;
+        var i;
+
+        for (i = 0; i < ys.length; i++) {
+            if (ys[i] < minCardY) {
+                minCardY = ys[i];
+            }
+            if (ys[i] > maxCardY) {
+                maxCardY = ys[i];
+            }
+        }
+
+        var minTop = 16;
+        var headerEl = document.querySelector(".header");
+        if (window.matchMedia("(max-width: 1024px)").matches && headerEl) {
+            minTop = headerEl.offsetHeight + 16;
+        }
+
+        var reveal = 40;
+        var highest = wrapTopInSection + delta + minCardY - gap - cardH - reveal;
+        if (highest < minTop) {
+            delta += minTop - highest;
+        }
+
+        var sectionH = section.offsetHeight;
+        var lowest = wrapTopInSection + delta + wrapH + maxCardY + gap + cardH + reveal;
+        if (lowest > sectionH - 16) {
+            delta -= lowest - (sectionH - 16);
+            highest = wrapTopInSection + delta + minCardY - gap - cardH - reveal;
+            if (highest < minTop) {
+                delta += minTop - highest;
+            }
+        }
 
         gsap.set(wrap, { y: currentY });
         return delta;
@@ -1247,7 +1413,13 @@ function initEffectScroll() {
             pin: true,
             pinSpacing: true,
             scrub: 0.35,
-            invalidateOnRefresh: true
+            invalidateOnRefresh: true,
+            onUpdate: function () {
+                var headerST = ScrollTrigger.getById("header-hide");
+                if (headerST) {
+                    headerST.update();
+                }
+            }
         }
     });
 

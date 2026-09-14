@@ -89,7 +89,9 @@
     width: 100%;
     height: 1024px;
     position: relative;
-    overflow: hidden;
+    overflow-x: clip;
+    overflow-y: clip;
+    isolation: isolate;
 
     background-color: var(--color-background);
 }
@@ -785,7 +787,6 @@
 .effect-sec {
     padding: 120px 0 680px;
     padding-bottom: max(680px, var(--effect-clearance, 680px));
-    overflow: clip;
 }
 
 .effect-title {
@@ -1104,7 +1105,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        overflow: clip;
         box-sizing: border-box;
     }
 
@@ -1173,6 +1173,9 @@
         height: fit-content;
         padding: clamp(72px, 9vw, 110px) 0;
         box-sizing: border-box;
+        overflow-x: clip;
+        overflow-y: clip;
+        isolation: isolate;
     }
 
     .promotion-sec::before {
@@ -1241,7 +1244,6 @@
         padding: 0 clamp(16px, 4vw, 40px);
         justify-content: center;
         align-items: center;
-        overflow: clip;
         box-sizing: border-box;
     }
 
@@ -1432,7 +1434,6 @@
 
     .effect-sec {
         padding: clamp(72px, 10vw, 112px) 0 max(70vh, var(--effect-clearance, 70vh));
-        overflow: clip;
     }
 
     .effect-title,
@@ -1666,6 +1667,9 @@
         height: auto;
         min-height: 0;
         padding: clamp(56px, 16vw, 88px) 0;
+        overflow-x: clip;
+        overflow-y: clip;
+        isolation: isolate;
     }
 
     .promotion-sec .container {
