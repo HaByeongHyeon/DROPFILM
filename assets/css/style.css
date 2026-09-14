@@ -13,7 +13,6 @@
     height: 100%;
 
     padding: 328px 0 288px;
-    background-color: #fff;
 }
 
 .about-con {
@@ -786,7 +785,7 @@
 .effect-sec {
     padding: 120px 0 680px;
     padding-bottom: max(680px, var(--effect-clearance, 680px));
-    background-color: #fff;
+    overflow: clip;
 }
 
 .effect-title {
@@ -1105,6 +1104,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        overflow: clip;
         box-sizing: border-box;
     }
 
@@ -1241,6 +1241,7 @@
         padding: 0 clamp(16px, 4vw, 40px);
         justify-content: center;
         align-items: center;
+        overflow: clip;
         box-sizing: border-box;
     }
 
@@ -1431,6 +1432,7 @@
 
     .effect-sec {
         padding: clamp(72px, 10vw, 112px) 0 max(70vh, var(--effect-clearance, 70vh));
+        overflow: clip;
     }
 
     .effect-title,

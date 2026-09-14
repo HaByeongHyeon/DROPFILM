@@ -368,6 +368,8 @@ function initAboutScroll() {
                 gsap.set(textItems, { opacity: 1, y: 0 });
                 return function () {
                     killAboutPin();
+                    gsap.set(img, { clearProps: "x,y,scale,transform" });
+                    gsap.set(textItems, { clearProps: "opacity,transform" });
                 };
             }
 
@@ -396,7 +398,6 @@ function initAboutScroll() {
                     pin: true,
                     pinSpacing: true,
                     scrub: 0.35,
-                    fastScrollEnd: true,
                     invalidateOnRefresh: true,
                     onUpdate: function (self) {
                         if (self.progress >= imgEnd) {
@@ -428,6 +429,9 @@ function initAboutScroll() {
 
             return function () {
                 killAboutPin();
+                textTimeline.kill();
+                gsap.set(img, { clearProps: "x,y,scale,transform" });
+                gsap.set(textItems, { clearProps: "opacity,transform" });
             };
         });
 
@@ -447,7 +451,8 @@ function initAboutScroll() {
                 gsap.set(textItems, { opacity: 1, y: 0 });
                 return function () {
                     killAboutPin();
-                    gsap.set(img, { clearProps: "scale,x,y" });
+                    gsap.set(img, { clearProps: "scale,x,y,transform" });
+                    gsap.set(textItems, { clearProps: "opacity,transform" });
                 };
             }
 
@@ -461,7 +466,6 @@ function initAboutScroll() {
                     pin: true,
                     pinSpacing: true,
                     scrub: 0.35,
-                    fastScrollEnd: true,
                     invalidateOnRefresh: true
                 }
             });
@@ -492,7 +496,8 @@ function initAboutScroll() {
 
             return function () {
                 killAboutPin();
-                gsap.set(img, { clearProps: "scale,x,y" });
+                gsap.set(img, { clearProps: "scale,x,y,transform" });
+                gsap.set(textItems, { clearProps: "opacity,transform" });
             };
         });
 
@@ -561,7 +566,6 @@ function initMeritScroll() {
             pin: true,
             pinSpacing: true,
             scrub: 0.35,
-            fastScrollEnd: true,
             invalidateOnRefresh: true
         }
     });
@@ -808,8 +812,7 @@ function initSatisfactionListSequence() {
     var timeline = gsap.timeline({
         defaults: {
             duration: 0.4,
-            ease: "power2.out",
-            overwrite: "auto"
+            ease: "power2.out"
         },
         scrollTrigger: {
             id: "satisfaction-list-sequence",
@@ -965,7 +968,6 @@ function initSlideScroll() {
             pin: true,
             pinSpacing: true,
             scrub: 0.35,
-            fastScrollEnd: true,
             invalidateOnRefresh: true,
             onRefresh: function () {
                 Array.prototype.forEach.call(slides, function (slide, index) {
@@ -1245,7 +1247,6 @@ function initEffectScroll() {
             pin: true,
             pinSpacing: true,
             scrub: 0.35,
-            fastScrollEnd: true,
             invalidateOnRefresh: true
         }
     });
