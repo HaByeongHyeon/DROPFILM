@@ -1,0 +1,152 @@
+.kv-sec {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+
+.kv-title-wrap {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+    z-index: 1;
+}
+
+.kv-desc {
+    font-size: 22px;
+    font-weight: 300;
+    margin: 0 0 30px;
+}
+
+.slide-wrap {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.slide-wrap img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pagenation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+.pagenation-item {
+    width: 15px;
+    height: 15px;
+    background-color: #fff;
+    border-radius: 50%;
+}
+
+.pagenation-item.active {
+    background-color: var(--color-point);
+}
+
+
+/* ================================================ */
+
+.about-sec {
+    width: 100%;
+    padding: 240px 0;
+    background-color: var(--color-background);
+}
+
+.about-con {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.about-title {
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0 0 20px;
+    color: var(--color-point);
+}
+
+.about-desc {
+    font-size: 42px;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.2;
+}
+
+
+/* ================================================ */
+
+.system-sec {
+    width: 100%;
+    padding: 120px 0;
+    background-color: var(--color-primary);
+    color: #fff;
+}
+
+.system-title-wrap {
+    margin: 0 0 120px;
+}
+
+.system-title-wrap p {
+    margin: 0 0 20px;
+}
+
+.point {
+    color: var(--color-point);
+}
+
+.system-list {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    margin: 0 0 80px;
+}
+
+.system-item:first-child {
+    border-left: 1px solid #fff;
+}
+
+.system-item {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    border-right: 1px solid #fff;
+}
+
+.warnning {
+    font-size: 16px;
+    font-weight: 300;
+    text-align: center;
+    color: #FAF8F3;
+}
+
+/* ================================================ */
+
+.plan-sec {
+    width: 100%;
+    padding: 120px 0;
+    background-color: var(--color-background);
+}
+
+.plan-title-wrap {
+    text-align: center;
+    margin: 0 0 50px;
+}
