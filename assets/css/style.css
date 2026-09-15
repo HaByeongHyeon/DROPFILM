@@ -654,7 +654,7 @@
     justify-content: center;
     align-items: flex-start;
     color: #fff;
-    padding: 0 240px;
+    padding: 0 max(24px, calc((100vw - 1440px) / 2));
 
     background-color: #333;
     background-size: cover;
@@ -909,7 +909,7 @@
 
 .contact-form {
     width: 100%;
-    padding: 120px 240px;
+    padding: 120px max(24px, calc((100vw - 1440px) / 2));
     background-color: #e8e8e8;
     border-radius: 48px;
 }

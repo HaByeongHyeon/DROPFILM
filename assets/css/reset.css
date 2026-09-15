@@ -48,16 +48,17 @@ table {
 	border-spacing: 0;
 }
 .container {
-	width: 100%;
+	width: min(calc(100% - 48px), 1440px);
 	max-width: 1440px;
 	margin: 0 auto;
+	box-sizing: border-box;
 }
 
 @media (max-width: 1024px) {
 	.container {
 		width: 100%;
 		max-width: 960px;
-		padding: 0 clamp(20px, 4.6vw, 48px);
+		padding: clamp(20px, 4.6vw, 48px);
 		box-sizing: border-box;
 	}
 }
@@ -66,7 +67,7 @@ table {
 	.container {
 		width: 100%;
 		max-width: 100%;
-		padding: 0 clamp(16px, 5.2vw, 24px);
+		padding: clamp(16px, 5.2vw, 24px);
 		box-sizing: border-box;
 	}
 }
