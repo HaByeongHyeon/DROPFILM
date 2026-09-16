@@ -502,7 +502,24 @@
     border-radius: 32px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1024px) and (min-width: 875px) {
+    .container {
+        width: calc(100% - 40px);
+        max-width: 984px;
+        margin-inline: auto;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .title-sec,
+    .vision-sec,
+    .Specialness-sec,
+    .intro-sec,
+    .video-sec,
+    .system-sec {
+        overflow-x: clip;
+    }
+
     .title-sec {
         padding: clamp(88px, 12vw, 120px) clamp(32px, 5vw, 48px);
         box-sizing: border-box;
@@ -694,7 +711,24 @@
     }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 874px) and (min-width: 402px) {
+    .container {
+        width: calc(100% - 40px);
+        max-width: none;
+        margin-inline: auto;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .title-sec,
+    .vision-sec,
+    .Specialness-sec,
+    .intro-sec,
+    .video-sec,
+    .system-sec {
+        overflow-x: clip;
+    }
+
     .title-sec {
         padding: clamp(64px, 18vw, 80px) clamp(16px, 5vw, 24px);
     }

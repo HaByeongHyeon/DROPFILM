@@ -94,7 +94,7 @@
     object-fit: contain;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1024px) and (min-width: 875px) {
     .footer {
         padding: clamp(36px, 6vw, 64px) 0;
         overflow-x: clip;
@@ -145,13 +145,23 @@
     }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 874px) and (min-width: 402px) {
     .footer {
         padding: clamp(32px, 10vw, 48px) 0;
+        overflow-x: clip;
     }
 
     .footer-logo img {
         width: clamp(110px, 36vw, 140px);
+        max-width: 100%;
+        height: auto;
+    }
+
+    .footer-desc,
+    .footer-copy {
+        max-width: 100%;
+        word-break: keep-all;
+        overflow-wrap: anywhere;
     }
 
     .footer-desc {
@@ -164,16 +174,19 @@
 
     .footer-bottom {
         flex-direction: column;
+        flex-wrap: wrap;
         align-items: flex-start;
         gap: 20px;
     }
 
     .footer-links {
+        flex-wrap: wrap;
         gap: 16px;
     }
 
     .footer-sns {
         gap: 16px;
+        flex-shrink: 0;
     }
 
     .footer-sns-link img {
