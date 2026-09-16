@@ -22,6 +22,23 @@
     <!-- =========================================== -->
 
     <section class="kv-sec">
+        <div class="slide-viewport swiper">
+            <div class="slide-wrap swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="./assets/images/franchise-images/slide-1.png" alt="slide-1">
+                </div>
+                <div class="swiper-slide">
+                    <img src="./assets/images/franchise-images/slide-2.png" alt="slide-2">
+                </div>
+                <div class="swiper-slide">
+                    <img src="./assets/images/franchise-images/slide-3.png" alt="slide-3">
+                </div>
+                <div class="swiper-slide">
+                    <img src="./assets/images/franchise-images/slide-4.png" alt="slide-4">
+                </div>
+            </div>
+        </div>
+
         <div class="kv-title-wrap">
             <p class="kv-desc">DROP FILM FRANCHISE</p>
             <h2 class="title-2">
@@ -30,17 +47,18 @@
             </h2>
         </div>
 
-        <div class="slide-wrap">
-            <img src="./assets/images/franchise-images/slide-1.png" alt="slide-1">
-            <img src="./assets/images/franchise-images/slide-2.png" alt="slide-2">
-            <img src="./assets/images/franchise-images/slide-3.png" alt="slide-3">
-            <img src="./assets/images/franchise-images/slide-4.png" alt="slide-4">
-        </div>
+        <button type="button" class="slide-arrow slide-prev">
+            <img src="./assets/images/franchise-images/icon-slide-arrow.png" alt="이전 이미지">
+        </button>
+        <button type="button" class="slide-arrow slide-next">
+            <img src="./assets/images/franchise-images/icon-slide-arrow.png" alt="다음 이미지">
+        </button>
 
         <div class="pagenation">
-            <div class="pagenation-item active"></div>
-            <div class="pagenation-item"></div>
-            <div class="pagenation-item"></div>
+            <button type="button" class="pagenation-item active"></button>
+            <button type="button" class="pagenation-item"></button>
+            <button type="button" class="pagenation-item"></button>
+            <button type="button" class="pagenation-item"></button>
         </div>
     </section>
 
@@ -69,7 +87,7 @@
         <div class="container">
             <div class="system-title-wrap">
                 <p class="point">FRANCHISE SYSTEM</p>
-                <h2 class="title-1">
+                <h2 class="system-title title-1">
                     복잡한 운영은 줄이고,<br>
                     필요한 기능은 하나의 매장에 담았습니다.
                 </h2>
@@ -103,25 +121,231 @@
     <section class="plan-sec">
         <div class="container">
             <div class="plan-title-wrap">
-                <h2 class="title-1">
+                <h2 class="title-1 plan-title plan-title-a">
                     필름의 전 과정을 경험하는 <span class="point">DROPFILM의 프리미엄 공간형 모델</span>
                 </h2>
+                <h2 class="title-1 plan-title plan-title-b">
+                    작은 공간에서도 시작할 수 있는 <span class="point">DROP FILM의 기본 모델</span>
+                </h2>
             </div>
-            <ul class="plan-list">
-                <li class="plan-item">
-                    <h2>PLAN A</h2>
-                    <p>DROP STUDIO</p>
-
-                    
-                </li>
-            </ul>
+            <div class="plan-tabs" role="tablist" aria-label="가맹 플랜">
+                <button type="button" class="plan-tab is-active" data-plan="a" role="tab" aria-selected="true">PLAN A</button>
+                <button type="button" class="plan-tab" data-plan="b" role="tab" aria-selected="false">PLAN B</button>
+            </div>
+            <div class="plan-wrap">
+                <article class="plan-a">
+                    <div class="plan-head">
+                        <h3 class="plan-a-title">PLAN A</h3>
+                        <p class="plan-a-subtitle">DROP STUDIO</p>
+                    </div>
+                    <div class="plan-body">
+                        <div class="plan-table">
+                            <div class="plan-row">
+                                <span>권장 규모</span>
+                                <span>약 8평</span>
+                            </div>
+                            <div class="plan-row">
+                                <span>가맹비</span>
+                                <span>700만원</span>
+                            </div>
+                            <div class="plan-row">
+                                <span>교육 · 오픈 지원</span>
+                                <span>300만원</span>
+                            </div>
+                            <div class="plan-row">
+                                <span>인테리어</span>
+                                <span>2,500만원</span>
+                            </div>
+                            <div class="plan-row">
+                                <span>DROP FILM 전용 자판기</span>
+                                <span>1,800만원</span>
+                            </div>
+                            <div class="plan-row">
+                                <span>셀프 현상 시스템</span>
+                                <span>2,000만원</span>
+                            </div>
+                            <div class="plan-row">
+                                <span>사진 확인 · 스캔 · 인화 시스템</span>
+                                <span>1,000만원</span>
+                            </div>
+                            <div class="plan-row">
+                                <span>기타 비용</span>
+                                <span>1500만원</span>
+                            </div>
+                            <div class="plan-row plan-row-total">
+                                <span>예상 합계</span>
+                                <span>약 9,800만원</span>
+                            </div>
+                        </div>
+                        <div class="plan-image-wrap">
+                            <img src="./assets/images/franchise-images/plan-a-img.png" alt="DROPFILM PLAN A 공간형 모델"
+                                class="plan-a-img">
+                        </div>
+                    </div>
+                </article>
+                <article class="plan-b">
+                    <div class="plan-head">
+                        <h3 class="plan-b-title">PLAN B</h3>
+                        <p class="plan-b-subtitle">DROP POINT</p>
+                    </div>
+                    <div class="plan-body">
+                        <div class="plan-table">
+                            <div class="plan-row">
+                                <span>권장 규모</span>
+                                <span>약 5 ~ 8평</span>
+                            </div>
+                            <div class="plan-row">
+                                <span>가맹비</span>
+                                <span>500만원</span>
+                            </div>
+                            <div class="plan-row">
+                                <span>교육 · 오픈 지원</span>
+                                <span>200만원</span>
+                            </div>
+                            <div class="plan-row">
+                                <span>인테리어</span>
+                                <span>1,500만원</span>
+                            </div>
+                            <div class="plan-row">
+                                <span>DROP FILM 전용 자판기</span>
+                                <span>1,800만원</span>
+                            </div>
+                            <div class="plan-row">
+                                <span>셀프 현상 시스템</span>
+                                <span>400만원</span>
+                            </div>
+                            <div class="plan-row">
+                                <span>사진 확인 · 스캔 · 인화 시스템</span>
+                                <span>300만원</span>
+                            </div>
+                            <div class="plan-row">
+                                <span>기타 비용</span>
+                                <span>400만원</span>
+                            </div>
+                            <div class="plan-row plan-row-total">
+                                <span>예상 합계</span>
+                                <span>약 5,100만원</span>
+                            </div>
+                        </div>
+                        <div class="plan-image-wrap">
+                            <img src="./assets/images/franchise-images/plan-b-img.png" alt="DROPFILM PLAN B 전용 자판기"
+                                class="plan-b-img">
+                        </div>
+                    </div>
+                </article>
+            </div>
         </div>
     </section>
 
+    <!-- =========================================== -->
+
+    <section class="backup-sec">
+        <div class="container">
+            <div class="backup-head">
+                <p class="backup-desc">계약 프로세스</p>
+                <h2 class="title-1">
+                    준비부터 운영까지<br>
+                    DROP FILM의 기준으로 지원합니다.
+                </h2>
+            </div>
+
+            <div class="backup-process">
+                <div class="backup-row backup-row-top">
+                    <div class="backup-item is-default-active">
+                        <div class="backup-circle">
+                            <span class="backup-en">CONSULTING</span>
+                            <p class="backup-ko">창업 상담</p>
+                        </div>
+                    </div>
+                    <span class="mo-backup-line" aria-hidden="true"></span>
+                    <img class="backup-line" src="./assets/images/franchise-images/backup-line.png" alt=""
+                        aria-hidden="true">
+                    <div class="backup-item">
+                        <div class="backup-circle">
+                            <span class="backup-en">LOCATION</span>
+                            <p class="backup-ko">입지 검토</p>
+                        </div>
+                    </div>
+                    <span class="mo-backup-line" aria-hidden="true"></span>
+                    <img class="backup-line" src="./assets/images/franchise-images/backup-line.png" alt=""
+                        aria-hidden="true">
+                    <div class="backup-item">
+                        <div class="backup-circle">
+                            <span class="backup-en">CONTRACT</span>
+                            <p class="backup-ko">가맹 계약</p>
+                        </div>
+                    </div>
+                    <span class="mo-backup-line" aria-hidden="true"></span>
+                    <img class="backup-line" src="./assets/images/franchise-images/backup-line.png" alt=""
+                        aria-hidden="true">
+                    <div class="backup-item">
+                        <div class="backup-circle">
+                            <span class="backup-en">SPACE</span>
+                            <p class="backup-ko">공간 설계</p>
+                        </div>
+                    </div>
+                    <span class="mo-backup-line" aria-hidden="true"></span>
+                </div>
+
+                <div class="backup-row backup-row-bottom">
+                    <img class="backup-line backup-line-lead" src="./assets/images/franchise-images/backup-line.png"
+                        alt="" aria-hidden="true">
+                    <div class="backup-item">
+                        <div class="backup-circle">
+                            <span class="backup-en">SET-UP</span>
+                            <p class="backup-ko">시스템 설치</p>
+                        </div>
+                    </div>
+                    <span class="mo-backup-line" aria-hidden="true"></span>
+                    <img class="backup-line" src="./assets/images/franchise-images/backup-line.png" alt=""
+                        aria-hidden="true">
+                    <div class="backup-item">
+                        <div class="backup-circle">
+                            <span class="backup-en">READY</span>
+                            <p class="backup-ko">운영 교육 · 최종 점검</p>
+                        </div>
+                    </div>
+                    <span class="mo-backup-line" aria-hidden="true"></span>
+                    <img class="backup-line" src="./assets/images/franchise-images/backup-line.png" alt=""
+                        aria-hidden="true">
+                    <div class="backup-item">
+                        <div class="backup-circle">
+                            <span class="backup-en">OPEN & SUPPORT</span>
+                            <p class="backup-ko">매장 오픈 · 운영 지원</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================================== -->
+
+    <section class="contact-sec">
+        <div class="container">
+            <h2 class="contact-title title-1">DROP FILM과 함께하는 창업의 시작</h2>
+            <p class="contact-desc desc">
+                입지 검토부터 매장 오픈까지,<br>
+                가맹점이 안정적으로 시작할 수 있도록 단계별로 안내합니다.
+            </p>
+            <button class="contact-btn btn-point">
+                가맹 상담 신청하기 →
+            </button>
+        </div>
+    </section>
+
+    <!-- =========================================== -->
+
+    <div data-component="footer"></div>
 
 
 
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="./js/jquery-4.0.0.min.js"></script>
+    <script src="./assets/component/header.js"></script>
     <script src="js/franchise.js"></script>
 </body>
 

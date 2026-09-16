@@ -62,8 +62,8 @@ input {
 
 .btn-point {
     font-family: var(--font-family);
-    font-size: var(--btn-point-tex-size);
-    font-weight: var(--btn-point-tex-weight);
+    font-size: var(--btn-point-text-size);
+    font-weight: var(--btn-point-text-weight);
     line-height: var(--btn-point-text-line-height);
     color: var(--color-point);
 }
