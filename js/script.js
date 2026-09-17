@@ -88,6 +88,39 @@ function refreshScrollLayout() {
     });
 }
 
+function getSectionPinEnd(section) {
+    var height = section.offsetHeight;
+    var paddingBottom;
+
+    if (section.classList.contains("effect-sec")) {
+        paddingBottom = parseFloat(window.getComputedStyle(section).paddingBottom) || 0;
+        height = Math.max(window.innerHeight, height - paddingBottom);
+    }
+
+    return "+=" + Math.round(height + window.innerHeight * 0.6);
+}
+
+function getSlidePinEnd(section, timeline) {
+    var base = section.offsetHeight + window.innerHeight * 0.6;
+    var total = timeline && timeline.duration ? timeline.duration() : 0;
+    var shrinkAt;
+    var slidePart;
+    var rest;
+
+    if (!total) {
+        return "+=" + Math.round(base * 4);
+    }
+
+    shrinkAt = timeline.labels.shrink;
+    if (typeof shrinkAt !== "number") {
+        return "+=" + Math.round(base * 4);
+    }
+
+    slidePart = shrinkAt;
+    rest = total - shrinkAt;
+    return "+=" + Math.round(base * ((slidePart * 4) + rest) / total);
+}
+
 function loadComponents() {
     var slots = document.querySelectorAll("[data-component]");
 
@@ -227,7 +260,8 @@ function initPromotionScroll() {
     ScrollTrigger.create({
         id: "promotion-intro",
         trigger: section,
-        start: "top 80%",
+        start: "center center",
+        pin: false,
         once: true,
         onEnter: function () {
             timeline.play();
@@ -320,8 +354,12 @@ function initAboutScroll() {
                 scrollTrigger: {
                     id: "about-pin",
                     trigger: section,
-                    start: "top 80%",
-                    end: "bottom 20%",
+                    start: "top top",
+                    end: function () {
+                        return getSectionPinEnd(section);
+                    },
+                    pin: true,
+                    pinSpacing: true,
                     scrub: 0.35,
                     invalidateOnRefresh: true,
                     onUpdate: function (self) {
@@ -346,7 +384,7 @@ function initAboutScroll() {
                     x: 0,
                     opacity: 1,
                     duration: imgDuration,
-                    immediateRender: true
+                    immediateRender: false
                 }
             );
 
@@ -386,8 +424,12 @@ function initAboutScroll() {
                 scrollTrigger: {
                     id: "about-pin",
                     trigger: section,
-                    start: "top 80%",
-                    end: "bottom 20%",
+                    start: "top top",
+                    end: function () {
+                        return getSectionPinEnd(section);
+                    },
+                    pin: true,
+                    pinSpacing: true,
                     scrub: 0.35,
                     invalidateOnRefresh: true
                 }
@@ -403,7 +445,7 @@ function initAboutScroll() {
                     scale: 1,
                     opacity: 1,
                     duration: 2,
-                    immediateRender: true
+                    immediateRender: false
                 }
             );
 
@@ -434,13 +476,14 @@ function initAboutScroll() {
 
 function initMeritScroll() {
     var section = document.querySelector(".merit-sec");
+    var firstWrap = document.querySelector(".merit-1-wrap");
     var first = document.querySelector(".merit-1 .merit-text");
     var firstDesc = document.querySelector(".merit-1-desc .merit-text");
     var second = document.querySelector(".merit-2 .merit-text");
     var secondDesc = document.querySelector(".merit-2-desc .merit-text");
     var line = document.querySelector(".merit-line");
 
-    if (!section || !first || !firstDesc || !second || !secondDesc || !line) {
+    if (!section || !firstWrap || !first || !firstDesc || !second || !secondDesc || !line) {
         return;
     }
 
@@ -482,8 +525,12 @@ function initMeritScroll() {
         scrollTrigger: {
             id: "merit-pin",
             trigger: section,
-            start: "top 80%",
-            end: "bottom 20%",
+            start: "top top",
+            end: function () {
+                return getSectionPinEnd(section);
+            },
+            pin: true,
+            pinSpacing: true,
             scrub: 1,
             invalidateOnRefresh: true
         }
@@ -733,6 +780,7 @@ function initSatisfactionListSequence() {
             id: "satisfaction-list-sequence",
             trigger: section,
             start: "top center",
+            pin: false,
             toggleActions: "play none none reverse",
             invalidateOnRefresh: true
         }
@@ -848,14 +896,12 @@ function initSlideScroll() {
     });
 
     gsap.set(wrap, {
-        scale: 1,
         borderRadius: 0,
         transformOrigin: "center center"
     });
 
     if (pagination) {
         gsap.set(pagination, {
-            scale: 1,
             transformOrigin: getPaginationOrigin()
         });
     }
@@ -873,45 +919,7 @@ function initSlideScroll() {
 
     var timeline = gsap.timeline({
         defaults: { ease: "none" },
-        scrollTrigger: {
-            id: "slide-pin",
-            trigger: section,
-            start: "top 80%",
-            end: "bottom 20%",
-            scrub: 0.35,
-            invalidateOnRefresh: true,
-            onRefresh: function () {
-                Array.prototype.forEach.call(slides, function (slide, index) {
-                    if (index === 0) {
-                        return;
-                    }
-
-                    var tween = timeline.getTweensOf(slide)[0];
-                    if (!tween || tween.progress() > 0) {
-                        return;
-                    }
-
-                    gsap.set(slide, { y: getSlideTravel() });
-                });
-
-                if (pagination) {
-                    gsap.set(pagination, { transformOrigin: getPaginationOrigin() });
-                }
-            },
-            onUpdate: function () {
-                var current = 0;
-                var time = timeline.time();
-
-                for (var i = 0; i < slides.length; i++) {
-                    var labelTime = timeline.labels["slide-" + i];
-                    if (typeof labelTime === "number" && time >= labelTime - 0.0001) {
-                        current = i;
-                    }
-                }
-
-                setPageActive(current);
-            }
-        }
+        paused: true
     });
 
     Array.prototype.forEach.call(slides, function (slide, index) {
@@ -970,6 +978,51 @@ function initSlideScroll() {
     }
 
     timeline.to(hold, { value: hold.value + 2, duration: 0.7 });
+
+    ScrollTrigger.create({
+        id: "slide-pin",
+        trigger: section,
+        animation: timeline,
+        start: "top top",
+        end: function () {
+            return getSlidePinEnd(section, timeline);
+        },
+        pin: true,
+        pinSpacing: true,
+        scrub: 0.35,
+        invalidateOnRefresh: true,
+        onRefresh: function () {
+            Array.prototype.forEach.call(slides, function (slide, index) {
+                if (index === 0) {
+                    return;
+                }
+
+                var tween = timeline.getTweensOf(slide)[0];
+                if (!tween || tween.progress() > 0) {
+                    return;
+                }
+
+                gsap.set(slide, { y: getSlideTravel() });
+            });
+
+            if (pagination) {
+                gsap.set(pagination, { transformOrigin: getPaginationOrigin() });
+            }
+        },
+        onUpdate: function () {
+            var current = 0;
+            var time = timeline.time();
+
+            for (var i = 0; i < slides.length; i++) {
+                var labelTime = timeline.labels["slide-" + i];
+                if (typeof labelTime === "number" && time >= labelTime - 0.0001) {
+                    current = i;
+                }
+            }
+
+            setPageActive(current);
+        }
+    });
 }
 
 function initBrandSwiper() {
@@ -1082,57 +1135,59 @@ function initEffectScroll() {
 
     function getWrapCenterY() {
         var currentY = gsap.getProperty(wrap, "y") || 0;
+        var wrapRect;
+        var wrapCenter;
+        var viewCenter;
+        var delta;
+        var minTop;
+        var headerEl;
+
         gsap.set(wrap, { y: 0 });
+        wrapRect = wrap.getBoundingClientRect();
 
-        var sectionRect = section.getBoundingClientRect();
-        var wrapRect = wrap.getBoundingClientRect();
-        var wrapTopInSection = wrapRect.top - sectionRect.top;
-        var wrapH = wrapRect.height;
-        var wrapCenter = wrapTopInSection + wrapH / 2;
-        var viewCenter = window.innerHeight / 2;
-        var delta = viewCenter - wrapCenter;
-
-        var img = wrap.querySelector(".effect-card > img");
-        var cardH = img ? img.getBoundingClientRect().height : 0;
-        var gap = getCardGap();
-        var ys = getCardYs();
-        var minCardY = 0;
-        var maxCardY = 0;
-        var i;
-
-        for (i = 0; i < ys.length; i++) {
-            if (ys[i] < minCardY) {
-                minCardY = ys[i];
-            }
-            if (ys[i] > maxCardY) {
-                maxCardY = ys[i];
-            }
+        if (wrapRect.bottom < 0 || wrapRect.top > window.innerHeight) {
+            gsap.set(wrap, { y: currentY });
+            return 0;
         }
 
-        var minTop = 16;
-        var headerEl = document.querySelector(".header");
+        wrapCenter = wrapRect.top + wrapRect.height / 2;
+        viewCenter = window.innerHeight / 2;
+        delta = viewCenter - wrapCenter;
+
+        minTop = 16;
+        headerEl = document.querySelector(".header");
         if (window.matchMedia("(max-width: 1024px)").matches && headerEl) {
             minTop = headerEl.offsetHeight + 16;
         }
 
-        var reveal = 40;
-        var highest = wrapTopInSection + delta + minCardY - gap - cardH - reveal;
-        if (highest < minTop) {
-            delta += minTop - highest;
-        }
-
-        var sectionH = section.offsetHeight;
-        var lowest = wrapTopInSection + delta + wrapH + maxCardY + gap + cardH + reveal;
-        if (lowest > sectionH - 16) {
-            delta -= lowest - (sectionH - 16);
-            highest = wrapTopInSection + delta + minCardY - gap - cardH - reveal;
-            if (highest < minTop) {
-                delta += minTop - highest;
-            }
+        if (wrapRect.top + delta < minTop) {
+            delta = minTop - wrapRect.top;
         }
 
         gsap.set(wrap, { y: currentY });
         return delta;
+    }
+
+    function getEffectPinStart() {
+        var currentY = gsap.getProperty(wrap, "y") || 0;
+        var wrapRect;
+        var wrapCenter;
+        var start;
+        var slideST;
+
+        gsap.set(wrap, { y: 0 });
+        wrapRect = wrap.getBoundingClientRect();
+        wrapCenter = wrapRect.top + window.pageYOffset + wrapRect.height / 2;
+        gsap.set(wrap, { y: currentY });
+
+        start = wrapCenter - window.innerHeight / 2;
+        slideST = ScrollTrigger.getById("slide-pin");
+
+        if (slideST && start < slideST.end) {
+            start = slideST.end;
+        }
+
+        return start;
     }
 
     function getCardGap() {
@@ -1167,12 +1222,15 @@ function initEffectScroll() {
     }
 
     updateEffectClearance();
-    ScrollTrigger.addEventListener("refreshInit", updateEffectClearance);
+    if (section.dataset.effectRefreshBound !== "1") {
+        section.dataset.effectRefreshBound = "1";
+        ScrollTrigger.addEventListener("refreshInit", updateEffectClearance);
+    }
 
-    gsap.set(wrap, { y: 0 });
-    gsap.set(cardTops, { opacity: 0, y: -40 });
-    gsap.set(cardBottoms, { opacity: 0, y: 40 });
-    gsap.set(intro, { opacity: 1, y: 0 });
+    gsap.set(wrap, { clearProps: "transform" });
+    gsap.set(cardTops, { opacity: 0, y: 0 });
+    gsap.set(cardBottoms, { opacity: 0, y: 0 });
+    gsap.set(intro, { opacity: 1, clearProps: "transform" });
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         gsap.set(wrap, { y: getWrapCenterY() });
@@ -1192,8 +1250,12 @@ function initEffectScroll() {
         scrollTrigger: {
             id: "effect-pin",
             trigger: section,
-            start: "top 80%",
-            end: "bottom 20%",
+            start: getEffectPinStart,
+            end: function () {
+                return getSectionPinEnd(section);
+            },
+            pin: true,
+            pinSpacing: true,
             scrub: 0.35,
             invalidateOnRefresh: true,
             onUpdate: function () {
@@ -1205,16 +1267,22 @@ function initEffectScroll() {
         }
     });
 
-    timeline.to(wrap, {
-        y: getWrapCenterY,
-        duration: 1.2
-    });
+    timeline.fromTo(
+        wrap,
+        { y: 0 },
+        {
+            y: getWrapCenterY,
+            duration: 1.2,
+            immediateRender: false
+        }
+    );
 
     if (intro.length) {
         timeline.to(intro, {
             opacity: 0,
             y: -24,
-            duration: 0.8
+            duration: 0.8,
+            immediateRender: false
         }, 0);
     }
 
@@ -1231,17 +1299,29 @@ function initEffectScroll() {
 
     timeline.to(hold, { value: 2, duration: 0.5 });
 
-    timeline.to(cardTops, {
-        opacity: 1,
-        y: 0,
-        duration: 1
-    }, "reveal");
+    timeline.fromTo(
+        cardTops,
+        { opacity: 0, y: -40 },
+        {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            immediateRender: false
+        },
+        "reveal"
+    );
 
-    timeline.to(cardBottoms, {
-        opacity: 1,
-        y: 0,
-        duration: 1
-    }, "reveal");
+    timeline.fromTo(
+        cardBottoms,
+        { opacity: 0, y: 40 },
+        {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            immediateRender: false
+        },
+        "reveal"
+    );
 
     timeline.to(hold, { value: 3, duration: 0.8 });
 }
