@@ -118,9 +118,15 @@ function initTabletHeaderMenu(header) {
         if (open) {
             document.documentElement.style.overflow = "hidden";
             document.body.style.overflow = "hidden";
+            if (window.dropfilmSmoothScroll && typeof window.dropfilmSmoothScroll.stop === "function") {
+                window.dropfilmSmoothScroll.stop();
+            }
         } else {
             document.documentElement.style.overflow = "";
             document.body.style.overflow = "";
+            if (window.dropfilmSmoothScroll && typeof window.dropfilmSmoothScroll.start === "function") {
+                window.dropfilmSmoothScroll.start();
+            }
         }
     }
 

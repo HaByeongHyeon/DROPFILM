@@ -73,3 +73,16 @@ input {
     font-size: var(--footer-text-size);
     font-weight: var(--footer-text-weight);
 }
+
+html.lenis,
+html.lenis body {
+    height: auto;
+}
+
+html.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
+[data-lenis-prevent] {
+    overscroll-behavior: contain;
+}

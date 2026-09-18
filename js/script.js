@@ -779,7 +779,7 @@ function initSatisfactionListSequence() {
         scrollTrigger: {
             id: "satisfaction-list-sequence",
             trigger: section,
-            start: "top center",
+            start: "top top",
             pin: false,
             toggleActions: "play none none reverse",
             invalidateOnRefresh: true
