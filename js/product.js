@@ -41,6 +41,7 @@ function initProductTabs() {
     const $section = $(".product-sec");
 
     if (!$section.length || $section.data("tabsReady")) return;
+    if (!$section.find(".tab-menu").length) return;
 
     $section.data("tabsReady", true);
 
@@ -71,6 +72,9 @@ function initProductMobileMedia() {
     function sync() {
         if (media.matches) {
             initProductMobileSlider();
+            if (cameraDetailApi && cameraDetailApi.isOpen()) {
+                initDetailMobileSlider(cameraDetailApi.getProductIndex());
+            }
         } else {
             destroyProductMobileSlider();
             destroyDetailMobileSlider();
@@ -398,6 +402,27 @@ function createAxisSwipe(element, options) {
 var detailMobileSlider = null;
 var cameraDetailApi = null;
 
+function getCameraDetailIndex(max) {
+    var params = new URLSearchParams(window.location.search);
+    var index = Number(params.get("index"));
+
+    if (!Number.isFinite(index) || index < 0) {
+        return 0;
+    }
+
+    index = Math.floor(index);
+
+    if (typeof max === "number" && index >= max) {
+        return 0;
+    }
+
+    return index;
+}
+
+function goToCameraDetailPage(index) {
+    window.location.href = "./camera-detail.html?index=" + index;
+}
+
 function initCameraDetail() {
     const $section = $(".product-sec");
 
@@ -406,13 +431,13 @@ function initCameraDetail() {
     const $items = $section.find(".product-camera .product-camera-item").not("[data-clone]");
     const $groups = $section.find(".camera-img > li");
     const $mainImg = $section.find(".detail-main-fallback");
+    const isDetailPage = $groups.length > 0;
 
     let currentProductIndex = -1;
     let currentImageIndex = 0;
     let isDetailOpen = false;
 
     $section.data("detailReady", true);
-    $items.attr({ tabindex: "0", role: "button" });
 
     function setCameraImage(imageIndex) {
         const $buttons = $groups.eq(currentProductIndex).find("button");
@@ -435,54 +460,17 @@ function initCameraDetail() {
     }
 
     function openCameraDetail(index) {
-        if (!$items.eq(index).length || !$groups.eq(index).length) return;
+        if (!$groups.eq(index).length) return;
 
         currentProductIndex = index;
         isDetailOpen = true;
 
         $groups.removeClass("active").find("button").removeClass("active");
         $groups.eq(index).addClass("active");
-
         $section.addClass("is-camera-detail");
         initDetailMobileSlider(index);
         setCameraImage(0);
-        window.scrollTo(0, Math.max(($section.offset() || {}).top - 80, 0));
     }
-
-    function closeCameraDetail() {
-        isDetailOpen = false;
-        destroyDetailMobileSlider();
-        $section.removeClass("is-camera-detail");
-        $groups.removeClass("active").find("button").removeClass("active");
-        $mainImg.attr({ src: "", alt: "" });
-        window.scrollTo(0, Math.max(($section.offset() || {}).top - 80, 0));
-    }
-
-    $section.on("click", ".product-camera .product-camera-item", function (event) {
-        if (productMobileSliders.camera && productMobileSliders.camera.dragged) {
-            event.preventDefault();
-            return;
-        }
-
-        const index = Number($(this).attr("data-index"));
-        openCameraDetail(Number.isNaN(index) ? $items.index(this) : index);
-    });
-
-    $section.on("keydown", ".product-camera .product-camera-item", function (event) {
-        if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            const index = Number($(this).attr("data-index"));
-            openCameraDetail(Number.isNaN(index) ? $items.index(this) : index);
-        }
-    });
-
-    $section.on("click", ".camera-detail-back", function () {
-        if (isDetailOpen) closeCameraDetail();
-    });
-
-    $section.on("click", ".camera-img > li.active button", function () {
-        setCameraImage($(this).index());
-    });
 
     cameraDetailApi = {
         getProductIndex: function () {
@@ -498,6 +486,39 @@ function initCameraDetail() {
             return isDetailOpen;
         }
     };
+
+    if (isDetailPage) {
+        openCameraDetail(getCameraDetailIndex($groups.length));
+
+        $section.on("click", ".camera-detail-back", function () {
+            window.location.href = "./product.html";
+        });
+
+        $section.on("click", ".camera-img > li.active button", function () {
+            setCameraImage($(this).index());
+        });
+        return;
+    }
+
+    $items.attr({ tabindex: "0", role: "button" });
+
+    $section.on("click", ".product-camera .product-camera-item", function (event) {
+        if (productMobileSliders.camera && productMobileSliders.camera.dragged) {
+            event.preventDefault();
+            return;
+        }
+
+        const index = Number($(this).attr("data-index"));
+        goToCameraDetailPage(Number.isNaN(index) ? $items.index(this) : index);
+    });
+
+    $section.on("keydown", ".product-camera .product-camera-item", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            const index = Number($(this).attr("data-index"));
+            goToCameraDetailPage(Number.isNaN(index) ? $items.index(this) : index);
+        }
+    });
 }
 
 function initDetailMobileSlider(productIndex) {

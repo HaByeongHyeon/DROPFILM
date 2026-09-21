@@ -504,33 +504,17 @@
     transition: color 0.25s ease;
 }
 
-.backup-item.is-default-active .backup-circle,
 .backup-item:hover .backup-circle {
     background-color: var(--color-primary);
     border-color: var(--color-primary);
 }
 
-.backup-item.is-default-active .backup-en,
 .backup-item:hover .backup-en {
     color: #e8c547;
 }
 
-.backup-item.is-default-active .backup-ko,
 .backup-item:hover .backup-ko {
     color: #fff;
-}
-
-.backup-process:has(.backup-item:hover) .backup-item.is-default-active:not(:hover) .backup-circle {
-    background-color: #fff;
-    border-color: color-mix(in srgb, var(--color-primary) 32%, #fff);
-}
-
-.backup-process:has(.backup-item:hover) .backup-item.is-default-active:not(:hover) .backup-en {
-    color: var(--color-point);
-}
-
-.backup-process:has(.backup-item:hover) .backup-item.is-default-active:not(:hover) .backup-ko {
-    color: var(--color-primary);
 }
 
 .plan-tabs,

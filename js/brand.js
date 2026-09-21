@@ -182,6 +182,7 @@ function initSystemScroll() {
     var wrap = document.querySelector(".system-sec .system-img-wrap");
     var title = document.querySelector(".system-sec .system-title");
     var desc = document.querySelector(".system-sec .system-desc");
+    var bgImg = section ? section.querySelector(":scope > img") : null;
 
     if (!section || !wrap) {
         return;
@@ -230,6 +231,10 @@ function initSystemScroll() {
             gsap.killTweensOf(heading);
             gsap.set(heading, { clearProps: "opacity,transform" });
         }
+        if (bgImg) {
+            gsap.killTweensOf(bgImg);
+            gsap.set(bgImg, { clearProps: "opacity" });
+        }
         gsap.set(wrap, { clearProps: "transform,y" });
         gsap.set(section, { clearProps: "transform" });
     }
@@ -238,7 +243,14 @@ function initSystemScroll() {
         destroySystemAnimation();
 
         if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            if (bgImg) {
+                gsap.set(bgImg, { opacity: 1 });
+            }
             return;
+        }
+
+        if (bgImg) {
+            gsap.set(bgImg, { opacity: 0.3 });
         }
 
         systemTimeline = gsap.timeline({
@@ -288,6 +300,17 @@ function initSystemScroll() {
             duration: 1,
             force3D: false
         });
+
+        if (bgImg) {
+            systemTimeline.to(
+                bgImg,
+                {
+                    opacity: 1,
+                    duration: 1
+                },
+                "<"
+            );
+        }
     }
 
     var mm = gsap.matchMedia();

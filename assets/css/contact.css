@@ -301,17 +301,16 @@
 
 .contact-sec .faq-answer {
     display: none;
-    padding: 0 8px 28px 48px;
 }
 
 .contact-sec .faq-answer p {
-    padding: 20px 24px;
+    padding: 30px 70px;
     background-color: #FAF8F3;
     font-family: var(--font-family);
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 400;
     line-height: 1.5;
-    color: #000;
+    color: var(--color-primary);
 }
 
 @media (max-width: 1024px) and (min-width: 875px) {
@@ -382,13 +381,8 @@
         margin-left: 12px;
     }
 
-    .contact-sec .faq-answer {
-        padding: 0 4px 20px 36px;
-    }
-
     .contact-sec .faq-answer p {
-        padding: 16px 20px;
-        font-size: 16px;
+        font-size: 20px;
         overflow-wrap: break-word;
         word-break: keep-all;
     }
@@ -540,12 +534,8 @@
         margin-left: 12px;
     }
 
-    .contact-sec .faq-answer {
-        padding: 0 0 16px 28px;
-    }
-
     .contact-sec .faq-answer p {
-        padding: 14px 16px;
+        padding: 30px 20px;
         font-size: 14px;
         line-height: 1.5;
         overflow-wrap: break-word;
