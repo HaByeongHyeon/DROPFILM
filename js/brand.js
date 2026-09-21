@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     loadComponents().then(function () {
         initHeader();
+        initBrandWave();
         initIntroScroll();
         initSystemScroll();
         initVisionSlider();
@@ -42,6 +43,18 @@ function loadComponents() {
                 });
         })
     );
+}
+
+function initBrandWave() {
+    initTriggeredWave(".title-sec", "brand-title-wave", ".title, .desc", "top 85%");
+    initTriggeredWave(".vision-sec", "brand-vision-wave", ".vision-title, .desc", "top 80%");
+    initTriggeredWave(".Specialness-sec", "brand-specialness-wave", function (section) {
+        var container = section.querySelector(".container") || section;
+
+        return Array.prototype.filter.call(container.children, function (el) {
+            return el.classList.contains("title-1") || el.classList.contains("desc");
+        });
+    }, "top 80%");
 }
 
 function initIntroScroll() {

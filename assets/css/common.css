@@ -87,6 +87,23 @@ html.lenis.lenis-smooth {
     overscroll-behavior: contain;
 }
 
+.wave-word {
+    display: inline-block;
+    white-space: nowrap;
+    vertical-align: top;
+}
+
+.wave-mask {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+}
+
+.wave-letter {
+    display: inline-block;
+    transform: translateY(100%);
+}
+
 
 /* =========================
     Popup

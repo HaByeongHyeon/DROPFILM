@@ -1,10 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
     loadComponents().then(function () {
         initHeader();
+        initFranchiseWave();
         initKvSlider();
         initPlanSticky();
         initPlanTabs();
         initBackupScroll();
+
+        if (typeof ScrollTrigger !== "undefined") {
+            ScrollTrigger.refresh();
+        }
     });
 });
 
@@ -33,6 +38,14 @@ function loadComponents() {
                 });
         })
     );
+}
+
+function initFranchiseWave() {
+    initTriggeredWave(".kv-title-wrap", "franchise-kv-wave", ".kv-desc, .title-2", "top 85%");
+    initTriggeredWave(".about-sec", "franchise-about-wave", ".about-title, .about-desc", "top 80%");
+    initTriggeredWave(".system-title-wrap", "franchise-system-wave", ".point, .system-title", "top 80%");
+    initTriggeredWave(".backup-head", "franchise-backup-wave", ".backup-desc, .title-1", "top 80%");
+    initTriggeredWave(".contact-sec", "franchise-contact-wave", ".contact-title, .contact-desc", "top 80%");
 }
 
 function initKvSlider() {

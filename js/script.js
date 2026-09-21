@@ -4,14 +4,17 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     initAboutScroll();
+    initIntroWave();
     initPromotionScroll();
     initMeritScroll();
     initComparisonPlanFade();
     initComparisonPlanSequence();
+    initSatisfactionWave();
     initSatisfactionListSequence();
     initSlideScroll();
     initBrandSwiper();
     initEffectScroll();
+    initEffectWave();
     initContactForm();
 
     Promise.all([
@@ -121,6 +124,7 @@ function getSlidePinEnd(section, timeline) {
     return "+=" + Math.round(base * ((slidePart * 4) + rest) / total);
 }
 
+
 function loadComponents() {
     var slots = document.querySelectorAll("[data-component]");
 
@@ -211,7 +215,7 @@ function initPromotionScroll() {
         timeline.to(item, {
             opacity: 1,
             y: 0,
-            duration: 0.6,
+            duration: 0.3,
             ease: "power2.out"
         });
 
@@ -247,7 +251,7 @@ function initPromotionScroll() {
 
     timeline.to(count, {
         value: targetAmount,
-        duration: 0.5,
+        duration: 0.2,
         ease: "power1.out",
         onUpdate: function () {
             amountSpan.textContent = formatAmount(count.value);
@@ -286,6 +290,7 @@ function initAboutScroll() {
     gsap.registerPlugin(ScrollTrigger);
 
     var textItems = Array.prototype.slice.call(aboutText.children);
+    var aboutDesc = aboutText.querySelector(".about-desc") || textItems[0];
 
     function killAboutPin() {
         var existing = ScrollTrigger.getById("about-pin");
@@ -316,17 +321,20 @@ function initAboutScroll() {
             return;
         }
         section.dataset.aboutScrollReady = "1";
+        splitWaveText(aboutDesc);
 
         var mm = gsap.matchMedia();
 
         mm.add("(min-width: 1025px)", function () {
             killAboutPin();
             gsap.set(img, { y: 0, scale: 1, transformOrigin: "center center" });
-            gsap.set(textItems, { opacity: 0, y: 40 });
+            gsap.set(textItems, { opacity: 0, y: 0 });
+            setWaveLetters([aboutDesc], WAVE_Y);
 
-            if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            if (prefersReducedMotion()) {
                 gsap.set(img, { x: 0, y: 0, opacity: 1 });
                 gsap.set(textItems, { opacity: 1, y: 0 });
+                setWaveLetters([aboutDesc], 0);
                 return function () {
                     killAboutPin();
                     gsap.set(img, { clearProps: "x,y,scale,transform" });
@@ -339,11 +347,12 @@ function initAboutScroll() {
             textItems.forEach(function (item) {
                 textTimeline.to(item, {
                     opacity: 1,
-                    y: 0,
                     duration: 0.3,
                     ease: "power2.out"
                 });
             });
+
+            addWaveSequence(textTimeline, [aboutDesc], "<");
 
             var imgDuration = 3;
             var holdDuration = 2.4;
@@ -407,11 +416,13 @@ function initAboutScroll() {
                 opacity: 1,
                 transformOrigin: "center center"
             });
-            gsap.set(textItems, { opacity: 0, y: 40 });
+            gsap.set(textItems, { opacity: 0, y: 0 });
+            setWaveLetters([aboutDesc], WAVE_Y);
 
-            if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            if (prefersReducedMotion()) {
                 gsap.set(img, { scale: 1, opacity: 1 });
                 gsap.set(textItems, { opacity: 1, y: 0 });
+                setWaveLetters([aboutDesc], 0);
                 return function () {
                     killAboutPin();
                     gsap.set(img, { clearProps: "scale,x,y,transform" });
@@ -453,9 +464,10 @@ function initAboutScroll() {
 
             timeline.to(textItems, {
                 opacity: 1,
-                y: 0,
-                duration: 1
+                duration: 0.25
             });
+
+            addWaveSequence(timeline, [aboutDesc], "<");
 
             timeline.to({}, { duration: 0.6 });
 
@@ -472,6 +484,59 @@ function initAboutScroll() {
     } else {
         img.addEventListener("load", start, { once: true });
     }
+}
+
+function initIntroWave() {
+    initTriggeredWave(".intro-sec", "intro-wave", ".intro-title, .intro-desc", "top 85%");
+    initTriggeredWave(".intro-2-sec", "intro-2-wave", getSectionWaveTargets, "center center", ".intro-2-title");
+}
+
+function initSatisfactionWave() {
+    var section = document.querySelector(".Satisfaction-sec");
+    var title;
+    var conTitle;
+    var conDesc;
+    var timeline;
+
+    if (!section) {
+        return;
+    }
+
+    if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") {
+        console.error("GSAP / ScrollTrigger is not loaded.");
+        return;
+    }
+
+    gsap.registerPlugin(ScrollTrigger);
+    killScrollTriggerById("satisfaction-wave");
+
+    title = section.querySelector(".Satisfaction-title");
+    conTitle = section.querySelector(".Satisfaction-con-title");
+    conDesc = section.querySelector(".Satisfaction-con-desc");
+
+    if (!title && !conTitle && !conDesc) {
+        return;
+    }
+
+    if (prefersReducedMotion()) {
+        setWaveLetters([title, conTitle, conDesc], 0);
+        return;
+    }
+
+    setWaveLetters([title, conTitle, conDesc], WAVE_Y);
+
+    timeline = gsap.timeline({
+        scrollTrigger: {
+            id: "satisfaction-wave",
+            trigger: section,
+            start: "top 78%",
+            toggleActions: "play none none reverse",
+            invalidateOnRefresh: true
+        }
+    });
+
+    addWaveSequence(timeline, [title]);
+    addWaveSequence(timeline, [conTitle, conDesc], undefined, true);
 }
 
 function initMeritScroll() {
@@ -828,6 +893,16 @@ function initSlideScroll() {
         });
     }
 
+    function getWaveTextItems(slide) {
+        return Array.prototype.filter.call(slide.children, function (child) {
+            return (
+                child.classList.contains("slide-title") ||
+                child.classList.contains("subtitle") ||
+                child.classList.contains("desc")
+            );
+        });
+    }
+
     var OVERLAY_MAX = 0.6;
     var overlays = Array.prototype.map.call(slides, function (slide) {
         var dim = slide.querySelector(".slide-dim");
@@ -885,6 +960,74 @@ function initSlideScroll() {
         );
     }
 
+    if (section._slideWaveTimelines) {
+        section._slideWaveTimelines.forEach(function (waveTimeline) {
+            waveTimeline.kill();
+        });
+        section._slideWaveTimelines = null;
+    }
+
+    var waveTimelines = Array.prototype.map.call(slides, function (slide) {
+        var items = getWaveTextItems(slide);
+        var btn = slide.querySelector(".btn");
+        var btnLetters;
+        var waveTimeline;
+
+        setWaveLetters(items, WAVE_Y);
+
+        if (btn) {
+            btnLetters = btn.querySelectorAll(".wave-letter");
+            if (btnLetters.length) {
+                gsap.set(btnLetters, { y: 0 });
+            }
+        }
+
+        waveTimeline = gsap.timeline({ paused: true });
+        addWaveSequence(waveTimeline, items, undefined, true);
+        return waveTimeline;
+    });
+
+    section._slideWaveTimelines = waveTimelines;
+
+    function syncSlideWave(index, shouldPlay) {
+        var waveTimeline = waveTimelines[index];
+        var items;
+
+        if (!waveTimeline || !slides[index]) {
+            return;
+        }
+
+        items = getTextItems(slides[index]);
+
+        if (shouldPlay) {
+            gsap.to(items, {
+                opacity: 1,
+                duration: 0.2,
+                ease: "power2.out",
+                overwrite: true
+            });
+
+            if (waveTimeline.progress() === 1 && !waveTimeline.reversed()) {
+                return;
+            }
+
+            waveTimeline.play();
+            return;
+        }
+
+        if (waveTimeline.progress() > 0) {
+            waveTimeline.reverse();
+        }
+
+        if (index === 0) {
+            gsap.to(items, {
+                opacity: 0,
+                duration: 0.2,
+                overwrite: true
+            });
+        }
+    }
+
     Array.prototype.forEach.call(slides, function (slide, index) {
         gsap.set(slide, {
             x: 0,
@@ -892,7 +1035,7 @@ function initSlideScroll() {
             zIndex: index + 1,
             force3D: true
         });
-        gsap.set(getTextItems(slide), { opacity: 0, y: 40 });
+        gsap.set(getTextItems(slide), { opacity: 0 });
     });
 
     gsap.set(wrap, {
@@ -908,10 +1051,11 @@ function initSlideScroll() {
 
     setPageActive(0);
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (prefersReducedMotion()) {
         gsap.set(slides[0], { y: 0 });
         gsap.set(overlays[0], { autoAlpha: OVERLAY_MAX });
         gsap.set(getTextItems(slides[0]), { opacity: 1, y: 0 });
+        setWaveLetters(getWaveTextItems(slides[0]), 0);
         return;
     }
 
@@ -951,11 +1095,9 @@ function initSlideScroll() {
             }
         );
 
-        timeline.to(getTextItems(slide), {
-            opacity: 1,
-            y: 0,
-            duration: 0.8
-        });
+        timeline.to({}, { duration: 0.5 });
+        timeline.addLabel("wave-" + index);
+        timeline.to({}, { duration: 0.8 });
 
         timeline.to(hold, { value: index + 1, duration: 0.6 });
     });
@@ -1009,18 +1151,33 @@ function initSlideScroll() {
                 gsap.set(pagination, { transformOrigin: getPaginationOrigin() });
             }
         },
-        onUpdate: function () {
+        onUpdate: function (self) {
             var current = 0;
             var time = timeline.time();
+            var i;
+            var labelTime;
+            var waveTime;
 
-            for (var i = 0; i < slides.length; i++) {
-                var labelTime = timeline.labels["slide-" + i];
+            for (i = 0; i < slides.length; i++) {
+                labelTime = timeline.labels["slide-" + i];
                 if (typeof labelTime === "number" && time >= labelTime - 0.0001) {
                     current = i;
                 }
             }
 
             setPageActive(current);
+
+            if (self.progress <= 0) {
+                Array.prototype.forEach.call(waveTimelines, function (waveTimeline, index) {
+                    syncSlideWave(index, false);
+                });
+                return;
+            }
+
+            for (i = 0; i < slides.length; i++) {
+                waveTime = timeline.labels["wave-" + i];
+                syncSlideWave(i, typeof waveTime === "number" && time >= waveTime - 0.0001);
+            }
         }
     });
 }
@@ -1083,6 +1240,10 @@ function initBrandSwiper() {
             }
         });
     });
+}
+
+function initEffectWave() {
+    initTriggeredWave(".effect-sec", "effect-wave", ".effect-title, .effect-desc");
 }
 
 function initEffectScroll() {
@@ -1272,7 +1433,7 @@ function initEffectScroll() {
         { y: 0 },
         {
             y: getWrapCenterY,
-            duration: 1.2,
+            duration: 0.3,
             immediateRender: false
         }
     );
