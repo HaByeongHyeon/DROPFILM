@@ -382,12 +382,8 @@
     line-height: 1.4;
     letter-spacing: -0.02em;
     color: var(--color-primary);
-    background-color: #fff;
+    background-color: var(--color-background);
     border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 8%, #fff);
-}
-
-.plan-row:first-child {
-    background-color: color-mix(in srgb, var(--color-sub-primary) 55%, #fff);
 }
 
 .plan-row span:last-child {
