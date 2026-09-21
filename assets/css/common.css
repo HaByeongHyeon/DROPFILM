@@ -86,3 +86,17 @@ html.lenis.lenis-smooth {
 [data-lenis-prevent] {
     overscroll-behavior: contain;
 }
+
+
+/* =========================
+    Popup
+========================= */
+
+.popup-title {
+    font-family: var(--font-family-popup);
+    font-size: var(--popup-title-size);
+    font-weight: var(--popup-title-weight);
+    line-height: var(--popup-title-line-height);
+    letter-spacing: var(--popup-title-letter-spacing);
+    color: var(--color-primary);
+}

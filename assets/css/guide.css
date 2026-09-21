@@ -5,6 +5,7 @@
     ========================= */
 
    --font-family: "Pretendard", sans-serif;
+   --font-family-popup: "Saenggeojincheon", sans-serif;
 
 
    /* =========================
@@ -62,6 +63,14 @@
    --color-sub-primary: #F1E9D8;
    --color-background: #faf8f3;
 
+   /* =========================
+       Popup
+    ========================= */
+
+    --popup-title-size: 42px;
+    --popup-title-weight: 500;
+    --popup-title-line-height: 1;
+    --popup-title-letter-spacing: -0.02em;
 
 }
 

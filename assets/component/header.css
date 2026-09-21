@@ -69,6 +69,10 @@
     color: var(--color-point);
 }
 
+.header-menu li:last-child a {
+    display: none;
+}
+
 .header-btn {
     padding: 0;
     flex-shrink: 0;
@@ -202,7 +206,7 @@
         height: calc(100dvh - var(--header-h));
         z-index: 1;
 
-        /* background-color: #000; */
+        background-color: rgba(0, 0, 0, 0.55);
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
@@ -258,6 +262,11 @@
 
     .header-menu li {
         width: 100%;
+    }
+
+    .header-menu li:last-child a {
+        display: block;
+        border-bottom: none;
     }
 
     .header-menu li a {
@@ -448,6 +457,11 @@
         width: 100%;
     }
 
+    .header-menu li:last-child a {
+        display: block;
+        border-bottom: none;
+    }
+
     .header-menu li a {
         display: block;
         width: 100%;
@@ -474,5 +488,3 @@
         margin-left: 0;
     }
 }
-
-
