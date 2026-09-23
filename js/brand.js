@@ -263,7 +263,7 @@ function initSystemScroll() {
         }
 
         if (bgImg) {
-            gsap.set(bgImg, { opacity: 0.3 });
+            gsap.set(bgImg, { opacity: 0.1 });
         }
 
         systemTimeline = gsap.timeline({
