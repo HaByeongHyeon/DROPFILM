@@ -20,110 +20,34 @@ function killScrollTriggerById(id) {
     }
 }
 
-function splitWaveTextNode(textNode) {
-    var text = textNode.nodeValue;
-    var parent = textNode.parentNode;
-    var fragment;
-    var parts;
-
-    if (!parent || text == null) {
-        return;
-    }
-
-    if (/^[\s]*$/.test(text) && /[\n\r]/.test(text)) {
-        parent.removeChild(textNode);
-        return;
-    }
-
-    fragment = document.createDocumentFragment();
-    parts = text.split(/(\s+)/);
-
-    parts.forEach(function (part) {
-        var word;
-        var chars;
-
-        if (!part) {
-            return;
-        }
-
-        if (/^\s+$/.test(part)) {
-            if (/[\n\r]/.test(part)) {
-                return;
-            }
-
-            fragment.appendChild(document.createTextNode(part));
-            return;
-        }
-
-        word = document.createElement("span");
-        word.className = "wave-word";
-        chars = Array.from(part);
-
-        chars.forEach(function (ch) {
-            var mask = document.createElement("span");
-            var letter = document.createElement("span");
-
-            mask.className = "wave-mask";
-            letter.className = "wave-letter";
-            letter.textContent = ch;
-            mask.appendChild(letter);
-            word.appendChild(mask);
-        });
-
-        fragment.appendChild(word);
-    });
-
-    parent.replaceChild(fragment, textNode);
-}
-
 function splitWaveText(element) {
-    function walk(node) {
-        var children;
-        var tag;
-
-        if (!node) {
-            return;
-        }
-
-        if (node.nodeType === 3) {
-            splitWaveTextNode(node);
-            return;
-        }
-
-        if (node.nodeType !== 1) {
-            return;
-        }
-
-        tag = node.tagName;
-
-        if (tag === "BR" || tag === "IMG" || tag === "SVG" || tag === "VIDEO") {
-            return;
-        }
-
-        if (
-            node.classList.contains("wave-word") ||
-            node.classList.contains("wave-mask") ||
-            node.classList.contains("wave-letter")
-        ) {
-            return;
-        }
-
-        children = Array.prototype.slice.call(node.childNodes);
-        children.forEach(walk);
-    }
+    var rise;
 
     if (!element) {
         return [];
     }
 
-    if (element.dataset.waveReady === "1") {
-        return Array.prototype.slice.call(element.querySelectorAll(".wave-letter"));
+    if (element.classList.contains("wave-rise")) {
+        return [element];
     }
 
-    walk(element);
+    if (element.dataset.waveReady === "1") {
+        rise = element.querySelector(":scope > .wave-rise");
+        return rise ? [rise] : [];
+    }
+
+    rise = document.createElement("span");
+    rise.className = "wave-rise";
+
+    while (element.firstChild) {
+        rise.appendChild(element.firstChild);
+    }
+
+    element.appendChild(rise);
+    element.classList.add("wave-block");
     element.dataset.waveReady = "1";
 
-    return Array.prototype.slice.call(element.querySelectorAll(".wave-letter"));
+    return [rise];
 }
 
 function wrapWaveLines(element) {
@@ -157,7 +81,10 @@ function wrapWaveLines(element) {
     children.forEach(function (node) {
         if (node.nodeType === 1 && node.tagName === "BR") {
             flushLine();
-            fragment.appendChild(node);
+            return;
+        }
+
+        if (node.nodeType === 3 && /^\s*$/.test(node.nodeValue)) {
             return;
         }
 
@@ -165,6 +92,11 @@ function wrapWaveLines(element) {
     });
 
     flushLine();
+
+    while (element.firstChild) {
+        element.removeChild(element.firstChild);
+    }
+
     element.appendChild(fragment);
     element.dataset.waveLines = "1";
 }
@@ -189,38 +121,43 @@ function getSectionWaveTargets(section) {
     );
 
     blocks.forEach(function (block) {
-        var lines;
-
-        wrapWaveLines(block);
-        lines = block.querySelectorAll(".wave-line");
-
-        if (lines.length) {
-            Array.prototype.forEach.call(lines, function (line) {
-                targets.push(line);
-            });
-            return;
-        }
-
         targets.push(block);
     });
 
     return targets;
 }
 
+function getWaveLineTargets(element) {
+    var lines;
+
+    if (!element) {
+        return [];
+    }
+
+    wrapWaveLines(element);
+    lines = element.querySelectorAll(".wave-line");
+
+    if (!lines.length) {
+        return [element];
+    }
+
+    return Array.prototype.slice.call(lines);
+}
+
 function setWaveLetters(elements, yValue) {
     Array.prototype.forEach.call(elements, function (element) {
-        var letters;
+        var rises;
 
         if (!element) {
             return;
         }
 
-        letters = splitWaveText(element);
-        if (!letters.length) {
+        rises = splitWaveText(element);
+        if (!rises.length) {
             return;
         }
 
-        gsap.set(letters, { y: yValue });
+        gsap.set(rises, { y: yValue });
     });
 }
 
@@ -228,20 +165,20 @@ function addWaveSequence(timeline, elements, position, simultaneous) {
     var inserted = 0;
 
     Array.prototype.forEach.call(elements, function (element) {
-        var letters;
+        var rises;
         var pos;
 
         if (!element) {
             return;
         }
 
-        letters = splitWaveText(element);
+        rises = splitWaveText(element);
 
-        if (!letters.length) {
+        if (!rises.length) {
             return;
         }
 
-        gsap.set(letters, { y: WAVE_Y });
+        gsap.set(rises, { y: WAVE_Y });
 
         if (inserted === 0) {
             pos = position;
@@ -252,11 +189,10 @@ function addWaveSequence(timeline, elements, position, simultaneous) {
         }
 
         timeline.to(
-            letters,
+            rises,
             {
                 y: 0,
                 duration: WAVE_DURATION,
-                stagger: WAVE_STAGGER,
                 ease: WAVE_EASE
             },
             pos

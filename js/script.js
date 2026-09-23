@@ -321,7 +321,7 @@ function initAboutScroll() {
             return;
         }
         section.dataset.aboutScrollReady = "1";
-        splitWaveText(aboutDesc);
+        var aboutLines = getWaveLineTargets(aboutDesc);
 
         var mm = gsap.matchMedia();
 
@@ -329,12 +329,12 @@ function initAboutScroll() {
             killAboutPin();
             gsap.set(img, { y: 0, scale: 1, transformOrigin: "center center" });
             gsap.set(textItems, { opacity: 0, y: 0 });
-            setWaveLetters([aboutDesc], WAVE_Y);
+            setWaveLetters(aboutLines, WAVE_Y);
 
             if (prefersReducedMotion()) {
                 gsap.set(img, { x: 0, y: 0, opacity: 1 });
                 gsap.set(textItems, { opacity: 1, y: 0 });
-                setWaveLetters([aboutDesc], 0);
+                setWaveLetters(aboutLines, 0);
                 return function () {
                     killAboutPin();
                     gsap.set(img, { clearProps: "x,y,scale,transform" });
@@ -352,7 +352,7 @@ function initAboutScroll() {
                 });
             });
 
-            addWaveSequence(textTimeline, [aboutDesc], "<");
+            addWaveSequence(textTimeline, aboutLines, "<", true);
 
             var imgDuration = 3;
             var holdDuration = 2.4;
@@ -417,12 +417,12 @@ function initAboutScroll() {
                 transformOrigin: "center center"
             });
             gsap.set(textItems, { opacity: 0, y: 0 });
-            setWaveLetters([aboutDesc], WAVE_Y);
+            setWaveLetters(aboutLines, WAVE_Y);
 
             if (prefersReducedMotion()) {
                 gsap.set(img, { scale: 1, opacity: 1 });
                 gsap.set(textItems, { opacity: 1, y: 0 });
-                setWaveLetters([aboutDesc], 0);
+                setWaveLetters(aboutLines, 0);
                 return function () {
                     killAboutPin();
                     gsap.set(img, { clearProps: "scale,x,y,transform" });
@@ -467,7 +467,7 @@ function initAboutScroll() {
                 duration: 0.25
             });
 
-            addWaveSequence(timeline, [aboutDesc], "<");
+            addWaveSequence(timeline, aboutLines, "<", true);
 
             timeline.to({}, { duration: 0.6 });
 
@@ -976,7 +976,7 @@ function initSlideScroll() {
         setWaveLetters(items, WAVE_Y);
 
         if (btn) {
-            btnLetters = btn.querySelectorAll(".wave-letter");
+            btnLetters = btn.querySelectorAll(".wave-rise");
             if (btnLetters.length) {
                 gsap.set(btnLetters, { y: 0 });
             }

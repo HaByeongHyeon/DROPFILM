@@ -41,10 +41,16 @@
     margin-bottom: 30px;
 }
 
+.about-text {
+    display: flex;
+    align-items: center;
+}
+
 .about-desc {
     font-size: 40px;
     font-weight: 600;
-    letter-spacing: -0.02
+    letter-spacing: -0.02;
+    margin: 0;
 }
 
 .btn-point {
@@ -494,7 +500,7 @@
     margin-bottom: 24px;
 
     line-height: 1.4;
-    color: #737373;
+    color: var(--color-primary);
 }
 
 .point {
@@ -749,7 +755,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 16px;
+    gap: 50px;
 }
 
 .pagenation .page {
@@ -1425,7 +1431,7 @@
 
     .pagenation {
         left: clamp(16px, 3vw, 36px);
-        gap: 12px;
+        gap: 38px;
     }
 
     .pagenation .page {
@@ -1787,6 +1793,10 @@
         margin-bottom: 36px;
     }
 
+    .Satisfaction-con-title {
+        color: var(--color-primary);
+    }
+
     .Satisfaction-copy {
         flex: none;
         width: 100%;
@@ -1844,7 +1854,7 @@
 
     .pagenation {
         left: 12px;
-        gap: 10px;
+        gap: 31px;
     }
 
     .pagenation .page {
