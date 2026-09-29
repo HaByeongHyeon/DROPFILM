@@ -313,7 +313,7 @@
     color: var(--color-primary);
 }
 
-@media (max-width: 1024px) and (min-width: 768px) {
+@media (max-width: 1024px) and (min-width: 875px) {
     .container {
         width: calc(100% - 40px);
         max-width: 984px;
@@ -462,7 +462,7 @@
     }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 874px) and (min-width: 402px) {
     .container {
         width: calc(100% - 40px);
         max-width: none;
@@ -637,13 +637,5 @@
         height: 48px;
         padding: 0 28px;
         font-size: 16px;
-    }
-}
-
-@media (max-width: 402px) {
-    .contact-sec .faq-arrow {
-        width: 15px;
-        height: 11px;
-        object-fit: contain;
     }
 }

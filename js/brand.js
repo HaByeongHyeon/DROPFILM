@@ -162,7 +162,7 @@ function initIntroScroll() {
 
     var mm = gsap.matchMedia();
 
-    mm.add("(min-width: 768px)", function () {
+    mm.add("(min-width: 875px)", function () {
         createIntroAnimation();
 
         return function () {
@@ -351,7 +351,7 @@ function initVisionSlider() {
         return;
     }
 
-    var mq = window.matchMedia("(max-width: 767px)");
+    var mq = window.matchMedia("(max-width: 874px) and (min-width: 402px)");
     var swiper = null;
     var slider = null;
     var pagination = null;

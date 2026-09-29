@@ -1,7 +1,7 @@
 (function (window, document) {
     "use strict";
 
-    var ENABLE_QUERY = "(min-width: 768px)";
+    var ENABLE_QUERY = "(min-width: 875px)";
     var GSAP_LAG_SMOOTHING_DELAY = 500;
     var GSAP_LAG_SMOOTHING_DELTA = 33;
     var instance = null;
