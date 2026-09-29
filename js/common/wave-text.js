@@ -2,6 +2,7 @@ var WAVE_Y = "100%";
 var WAVE_DURATION = 0.7;
 var WAVE_STAGGER = 0.016;
 var WAVE_EASE = "power3.out";
+var WAVE_SEQUENCE_OVERLAP = WAVE_DURATION * 0.5;
 
 function prefersReducedMotion() {
     return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -56,6 +57,14 @@ function wrapWaveLines(element) {
     var line;
 
     if (!element || element.dataset.waveLines === "1") {
+        return;
+    }
+
+    if (
+        !Array.prototype.some.call(element.childNodes, function (node) {
+            return node.nodeType === 1 && node.tagName === "BR";
+        })
+    ) {
         return;
     }
 
@@ -144,6 +153,45 @@ function getWaveLineTargets(element) {
     return Array.prototype.slice.call(lines);
 }
 
+function collectWaveLineRises(element) {
+    var rises = [];
+
+    Array.prototype.forEach.call(
+        element.querySelectorAll(":scope > .wave-line"),
+        function (line) {
+            Array.prototype.push.apply(rises, splitWaveText(line));
+        }
+    );
+
+    return rises;
+}
+
+function getWaveRises(element) {
+    if (!element) {
+        return [];
+    }
+
+    if (element.classList.contains("wave-rise")) {
+        return [element];
+    }
+
+    if (element.classList.contains("wave-line") || element.dataset.waveReady === "1") {
+        return splitWaveText(element);
+    }
+
+    if (element.dataset.waveLines === "1" || element.querySelector(":scope > .wave-line")) {
+        return collectWaveLineRises(element);
+    }
+
+    wrapWaveLines(element);
+
+    if (element.querySelector(":scope > .wave-line")) {
+        return collectWaveLineRises(element);
+    }
+
+    return splitWaveText(element);
+}
+
 function setWaveLetters(elements, yValue) {
     Array.prototype.forEach.call(elements, function (element) {
         var rises;
@@ -152,7 +200,7 @@ function setWaveLetters(elements, yValue) {
             return;
         }
 
-        rises = splitWaveText(element);
+        rises = getWaveRises(element);
         if (!rises.length) {
             return;
         }
@@ -172,7 +220,7 @@ function addWaveSequence(timeline, elements, position, simultaneous) {
             return;
         }
 
-        rises = splitWaveText(element);
+        rises = getWaveRises(element);
 
         if (!rises.length) {
             return;
@@ -181,11 +229,17 @@ function addWaveSequence(timeline, elements, position, simultaneous) {
         gsap.set(rises, { y: WAVE_Y });
 
         if (inserted === 0) {
-            pos = position;
+            if (position !== undefined) {
+                pos = position;
+            } else if (timeline.duration() > 0) {
+                pos = "-=" + WAVE_SEQUENCE_OVERLAP;
+            } else {
+                pos = position;
+            }
         } else if (simultaneous) {
             pos = "<";
         } else {
-            pos = undefined;
+            pos = "-=" + WAVE_SEQUENCE_OVERLAP;
         }
 
         timeline.to(

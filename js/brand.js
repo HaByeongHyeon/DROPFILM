@@ -55,6 +55,7 @@ function initBrandWave() {
             return el.classList.contains("title-1") || el.classList.contains("desc");
         });
     }, "top 80%");
+    initTriggeredWave(".system-sec", "brand-system-title-wave", ".system-title", "top 80%");
 }
 
 function initIntroScroll() {
@@ -319,9 +320,9 @@ function initSystemScroll() {
                 bgImg,
                 {
                     opacity: 1,
-                    duration: 1
+                    duration: 1.2
                 },
-                "<"
+                0
             );
         }
     }

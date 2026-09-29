@@ -3,7 +3,6 @@ $(function () {
         initHeader();
         initProductTabs();
         initCameraDetail();
-        initProductMobileSlider();
         initProductMobileMedia();
     });
 });
@@ -62,8 +61,6 @@ function setProductTab(tab) {
     $(`.tab-menu button[data-tab="${tab}"]`).parent().addClass("active");
 
     $(".product-list").toggleClass("is-film", tab === "film");
-    updateProductPagination();
-    syncProductMobileSliderLayout();
 }
 
 function initProductMobileMedia() {
@@ -71,12 +68,12 @@ function initProductMobileMedia() {
 
     function sync() {
         if (media.matches) {
-            initProductMobileSlider();
             if (cameraDetailApi && cameraDetailApi.isOpen()) {
-                initDetailMobileSlider(cameraDetailApi.getProductIndex());
+                initDetailMobileSlider(
+                    cameraDetailApi.getProductIndex()
+                );
             }
         } else {
-            destroyProductMobileSlider();
             destroyDetailMobileSlider();
         }
     }
@@ -89,238 +86,9 @@ function initProductMobileMedia() {
 
     window.addEventListener("resize", function () {
         if (!isProductMobile()) return;
-        syncProductMobileSliderLayout();
+
         syncDetailMobileSliderLayout();
     });
-}
-
-var productMobileSliders = {
-    camera: null,
-    film: null
-};
-var productPagerBound = false;
-
-function getActiveProductSlider() {
-    return $(".product-list").hasClass("is-film")
-        ? productMobileSliders.film
-        : productMobileSliders.camera;
-}
-
-function initProductMobileSlider() {
-    const $section = $(".product-sec");
-
-    if (!$section.length || !isProductMobile()) return;
-
-    productMobileSliders.camera = createMobileProductSlider(
-        $section.find(".product-camera"),
-        productMobileSliders.camera
-    );
-    productMobileSliders.film = createMobileProductSlider(
-        $section.find(".product-film"),
-        productMobileSliders.film
-    );
-
-    bindSharedProductPager($section);
-    updateProductPagination();
-}
-
-function createMobileProductSlider($root, existing) {
-    if (existing) {
-        setProductTrackPosition(existing, existing.visualIndex, false);
-        return existing;
-    }
-
-    if (!$root.length) return null;
-
-    const $originals = $root.children(".product-camera-item");
-    const total = $originals.length;
-
-    if (total < 1) return null;
-
-    $originals.wrapAll('<div class="product-camera-track"></div>');
-
-    const $track = $root.children(".product-camera-track");
-    $track.prepend($originals.last().clone().attr("data-clone", "true"));
-    $track.append($originals.first().clone().attr("data-clone", "true"));
-
-    const slider = {
-        $root: $root,
-        $track: $track,
-        total: total,
-        currentIndex: 0,
-        visualIndex: 1,
-        animating: false,
-        dragged: false,
-        swipe: null
-    };
-
-    setProductTrackPosition(slider, slider.visualIndex, false);
-    bindOneProductSliderEvents(slider);
-    return slider;
-}
-
-function destroyOneProductSlider(slider) {
-    if (!slider) return;
-
-    unbindOneProductSliderEvents(slider);
-    slider.$track.find("[data-clone]").remove();
-    slider.$track.css({
-        transform: "",
-        transition: "",
-        width: ""
-    });
-    slider.$track.children(".product-camera-item").css({
-        flexBasis: "",
-        width: "",
-        minWidth: "",
-        maxWidth: ""
-    });
-    slider.$track.children(".product-camera-item").unwrap();
-}
-
-function destroyProductMobileSlider() {
-    unbindSharedProductPager();
-    destroyOneProductSlider(productMobileSliders.camera);
-    destroyOneProductSlider(productMobileSliders.film);
-    productMobileSliders.camera = null;
-    productMobileSliders.film = null;
-}
-
-function syncProductMobileSliderLayout() {
-    if (!isProductMobile()) return;
-    if (productMobileSliders.camera) {
-        setProductTrackPosition(productMobileSliders.camera, productMobileSliders.camera.visualIndex, false);
-    }
-    if (productMobileSliders.film) {
-        setProductTrackPosition(productMobileSliders.film, productMobileSliders.film.visualIndex, false);
-    }
-}
-
-function updateProductPagination() {
-    const slider = getActiveProductSlider();
-    const $section = $(".product-sec");
-
-    if (!slider) return;
-
-    $section.find(".product-camera-current").text(String(slider.currentIndex + 1));
-    $section.find(".product-camera-total").text(String(slider.total));
-}
-
-function setProductTrackPosition(slider, visualIndex, animate) {
-    if (!slider) return;
-
-    const width = slider.$root.width();
-
-    slider.visualIndex = visualIndex;
-    slider.$track.children(".product-camera-item").css({
-        flex: "0 0 " + width + "px",
-        width: width + "px",
-        minWidth: width + "px",
-        maxWidth: width + "px"
-    });
-    slider.$track.css({
-        transition: animate ? "transform 0.4s ease" : "none",
-        transform: "translate3d(" + (-visualIndex * width) + "px, 0, 0)"
-    });
-}
-
-function goToProduct(slider, logicalIndex, direction) {
-    if (!slider || slider.animating) return;
-
-    const total = slider.total;
-    const nextIndex = ((logicalIndex % total) + total) % total;
-    let visualIndex = nextIndex + 1;
-
-    if (direction === "next" && slider.currentIndex === total - 1 && nextIndex === 0) {
-        visualIndex = total + 1;
-    } else if (direction === "prev" && slider.currentIndex === 0 && nextIndex === total - 1) {
-        visualIndex = 0;
-    }
-
-    slider.animating = true;
-    slider.currentIndex = nextIndex;
-    updateProductPagination();
-    setProductTrackPosition(slider, visualIndex, true);
-}
-
-function settleProductLoop(slider) {
-    if (!slider) return;
-
-    if (slider.visualIndex === 0) {
-        setProductTrackPosition(slider, slider.total, false);
-    } else if (slider.visualIndex === slider.total + 1) {
-        setProductTrackPosition(slider, 1, false);
-    }
-
-    slider.animating = false;
-}
-
-function bindSharedProductPager($section) {
-    if (productPagerBound) return;
-
-    productPagerBound = true;
-
-    $section.on("click.productMobilePager", ".product-camera-prev", function () {
-        const slider = getActiveProductSlider();
-        if (!slider || slider.animating) return;
-        goToProduct(slider, slider.currentIndex - 1, "prev");
-    });
-
-    $section.on("click.productMobilePager", ".product-camera-next", function () {
-        const slider = getActiveProductSlider();
-        if (!slider || slider.animating) return;
-        goToProduct(slider, slider.currentIndex + 1, "next");
-    });
-}
-
-function unbindSharedProductPager() {
-    if (!productPagerBound) return;
-    $(".product-sec").off(".productMobilePager");
-    productPagerBound = false;
-}
-
-function bindOneProductSliderEvents(slider) {
-    const root = slider.$root.get(0);
-    const track = slider.$track.get(0);
-
-    slider.onTransitionEnd = function (event) {
-        if (event.target !== track || event.propertyName !== "transform") return;
-        settleProductLoop(slider);
-    };
-
-    track.addEventListener("transitionend", slider.onTransitionEnd);
-
-    slider.swipe = createAxisSwipe(root, {
-        isLocked: function () {
-            return slider.animating;
-        },
-        onMove: function () {
-            slider.dragged = true;
-        },
-        onSwipe: function (direction) {
-            if (direction === "next") goToProduct(slider, slider.currentIndex + 1, "next");
-            else goToProduct(slider, slider.currentIndex - 1, "prev");
-        },
-        onCancel: function (swiped) {
-            if (!swiped) {
-                slider.dragged = false;
-                return;
-            }
-
-            window.setTimeout(function () {
-                slider.dragged = false;
-            }, 250);
-        }
-    });
-}
-
-function unbindOneProductSliderEvents(slider) {
-    if (!slider) return;
-
-    if (slider.onTransitionEnd) {
-        slider.$track.get(0).removeEventListener("transitionend", slider.onTransitionEnd);
-    }
-    if (slider.swipe) slider.swipe.destroy();
 }
 
 function createAxisSwipe(element, options) {
@@ -502,15 +270,21 @@ function initCameraDetail() {
 
     $items.attr({ tabindex: "0", role: "button" });
 
-    $section.on("click", ".product-camera .product-camera-item", function (event) {
-        if (productMobileSliders.camera && productMobileSliders.camera.dragged) {
-            event.preventDefault();
-            return;
-        }
+    $section.on(
+        "click",
+        ".product-camera .product-camera-item",
+        function () {
+            const index = Number(
+                $(this).attr("data-index")
+            );
 
-        const index = Number($(this).attr("data-index"));
-        goToCameraDetailPage(Number.isNaN(index) ? $items.index(this) : index);
-    });
+            goToCameraDetailPage(
+                Number.isNaN(index)
+                    ? $items.index(this)
+                    : index
+            );
+        }
+    );
 
     $section.on("keydown", ".product-camera .product-camera-item", function (event) {
         if (event.key === "Enter" || event.key === " ") {

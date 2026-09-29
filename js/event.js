@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     loadComponents().then(function () {
         initHeader();
+        initEventWave();
     });
     initEventPopup();
     bindEventMobileMedia();
@@ -30,6 +31,15 @@ function loadComponents() {
                     console.error(error);
                 });
         })
+    );
+}
+
+function initEventWave() {
+    initTriggeredWave(
+        ".event-sec",
+        "event-title-wave",
+        ".title-wrap .title-2, .title-wrap .subtitle",
+        "top 85%"
     );
 }
 

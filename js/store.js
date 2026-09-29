@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     loadComponents().then(function () {
         initHeader();
+        initStoreWave();
     });
 });
 
@@ -31,7 +32,11 @@ function loadComponents() {
     );
 }
 
-var STORE_MOBILE_QUERY = "(max-width: 874px) and (min-width: 402px)";
+function initStoreWave() {
+    initTriggeredWave(".map-sec", "store-map-title-wave", ".title-2", "top 85%");
+    initTriggeredWave(".store-sec", "store-list-title-wave", ".title-2", "top 85%");
+}
+
 var storeRegionMap = {
     "전체": "",
     "서울": "seoul",
@@ -42,17 +47,9 @@ var storeRegionMap = {
     "전주": "jeonju"
 };
 var selectedRegion = "전체";
-var searchKeyword = "";
-var storeSearchBound = false;
 var storeTabs = [];
 var storeCards = [];
 var storeTabsReady = false;
-var storeSlider = null;
-var storeMediaBound = false;
-
-function isStoreMobile() {
-    return window.matchMedia(STORE_MOBILE_QUERY).matches;
-}
 
 function normalizeStoreSearchText(value) {
     return String(value || "").trim().replace(/\s+/g, " ").toLowerCase();
@@ -72,25 +69,13 @@ function getStoreListNameByIndex(index) {
 
 function getFilteredStoreCards() {
     var regionClass = storeRegionMap[selectedRegion] || "";
-    var keyword = normalizeStoreSearchText(searchKeyword);
 
-    return storeCards.filter(function (card, index) {
-        var name;
-
+    return storeCards.filter(function (card) {
         if (regionClass && !card.classList.contains(regionClass)) {
             return false;
         }
 
-        if (!keyword) {
-            return true;
-        }
-
-        name = getStoreListNameByIndex(index);
-        if (!name) {
-            return false;
-        }
-
-        return normalizeStoreSearchText(name).indexOf(keyword) !== -1;
+        return true;
     });
 }
 
@@ -104,17 +89,6 @@ function applyStoreCardVisibility() {
 
 function applyStoreFilterUpdate() {
     applyStoreCardVisibility();
-
-    if (isStoreMobile()) {
-        if (storeSlider) {
-            rebuildStoreMobileSlider();
-        } else {
-            initStoreMobileSlider();
-        }
-        return;
-    }
-
-    destroyStoreMobileSlider();
 }
 
 function setSelectedRegion(label) {
@@ -156,7 +130,6 @@ function initStoreTabs() {
     }
 
     storeTabsReady = true;
-    initStoreSearch();
 
     storeTabs.forEach(function (tab) {
         tab.addEventListener("click", function () {
@@ -520,11 +493,7 @@ function destroyStoreMobileSlider() {
 }
 
 function syncStoreMobileSlider() {
-    if (isStoreMobile()) {
-        initStoreMobileSlider();
-    } else {
-        destroyStoreMobileSlider();
-    }
+    destroyStoreMobileSlider();
 }
 
 function bindStoreMobileMedia() {
@@ -547,7 +516,6 @@ function bindStoreMobileMedia() {
 }
 
 initStoreTabs();
-bindStoreMobileMedia();
 
 
 // 지도 ====================================================
@@ -667,10 +635,10 @@ var mapResizeTimer;
 
 window.addEventListener("resize", function () {
     clearTimeout(mapResizeTimer);
+
     mapResizeTimer = setTimeout(function () {
         if (map && typeof map.relayout === "function") {
             map.relayout();
         }
-        syncStoreMobileSlider();
     }, 200);
-});  
+});
