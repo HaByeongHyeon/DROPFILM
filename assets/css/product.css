@@ -463,7 +463,7 @@ body {
     }
 }
 
-@media (max-width: 874px) and (min-width: 402px) {
+@media (max-width: 874px) {
     .kv-sec {
         padding: 140px 0 48px;
     }

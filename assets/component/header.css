@@ -219,6 +219,7 @@
     }
 
     .header-nav {
+        height: calc(100% - 80px);
         position: fixed;
         top: var(--header-h);
         right: 0;
@@ -243,6 +244,7 @@
     }
 
     .header.is-menu-open .header-nav {
+        height: calc(100% - 80px);
         transform: translateX(0);
         visibility: visible;
         pointer-events: auto;
@@ -324,7 +326,7 @@
     }
 }
 
-@media (max-width: 874px) and (min-width: 402px) {
+@media (max-width: 874px) {
     [data-component="header"] {
         overflow: visible;
     }
@@ -432,6 +434,7 @@
     }
 
     .header-nav {
+        height: calc(100% - 80px);
         position: fixed;
         top: var(--header-h);
         right: 0;
@@ -455,6 +458,7 @@
     }
 
     .header.is-menu-open .header-nav {
+        height: calc(100% - 80px);
         transform: translateX(0);
         visibility: visible;
         pointer-events: auto;

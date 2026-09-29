@@ -145,7 +145,7 @@
     }
 }
 
-@media (max-width: 874px) and (min-width: 402px) {
+@media (max-width: 874px) {
     .footer {
         padding: clamp(32px, 10vw, 48px) 0;
         overflow-x: clip;
