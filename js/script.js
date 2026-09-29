@@ -49,7 +49,7 @@ function waitForWindowLoad() {
 
 function waitForFonts() {
     if (document.fonts && document.fonts.ready) {
-        return document.fonts.ready.catch(function () { });
+        return document.fonts.ready.catch(function () {});
     }
 
     return Promise.resolve();
@@ -60,7 +60,7 @@ function waitForImages() {
 
     return Promise.all(imgs.map(function (img) {
         if (img.complete && img.naturalWidth) {
-            return img.decode ? img.decode().catch(function () { }) : Promise.resolve();
+            return img.decode ? img.decode().catch(function () {}) : Promise.resolve();
         }
 
         return new Promise(function (resolve) {
@@ -484,6 +484,10 @@ function initAboutScroll() {
     } else {
         img.addEventListener("load", start, { once: true });
     }
+}
+
+function initIntroWave() {
+    initTriggeredWave(".intro-sec", "intro-wave", ".intro-title, .intro-desc", "top 85%");
 }
 
 function initSatisfactionWave() {
