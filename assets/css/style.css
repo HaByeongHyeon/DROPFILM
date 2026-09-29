@@ -1,3 +1,10 @@
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+}
+
 .kv-sec {
     width: 100%;
     height: 1080px;
@@ -27,10 +34,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: clamp(48px, 7vw, 120px);
 }
 
 .about-sec .about-con>img {
+    width: clamp(320px, 42vw, 560px);
+    height: auto;
     opacity: 0.6;
+    flex-shrink: 0;
 }
 
 .about-title {
@@ -42,14 +53,21 @@
 }
 
 .about-text {
+    width: min(42vw, 640px);
+    max-width: 640px;
+    min-width: 0;
+    flex: 1 1 0;
+
     display: flex;
     align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 .about-desc {
-    font-size: 40px;
+    font-size: clamp(28px, 2.8vw, 40px);
     font-weight: 600;
-    letter-spacing: -0.02;
+    letter-spacing: -0.02em;
     margin: 0;
 }
 
@@ -656,14 +674,18 @@
     position: absolute;
     top: 0;
     left: 0;
+
     width: 100%;
     height: 100%;
+    box-sizing: border-box;
+
     z-index: 1;
 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+
     color: #fff;
     padding: 0 max(24px, calc((100vw - 1440px) / 2));
 
@@ -671,6 +693,7 @@
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
+
     overflow: hidden;
 }
 
@@ -828,6 +851,17 @@
     border-radius: 32px;
 }
 
+.card-top>img,
+.card-bottom>img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+}
+
 .card-top {
     position: absolute;
     left: 0;
@@ -894,6 +928,9 @@
     height: 100%;
     padding: 120px 0;
     background-image: url(../images/main-images/contact-bg.png);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
 }
 
 .contact-title-wrap {
@@ -921,6 +958,8 @@
 .contact-form {
     width: 100%;
     padding: 120px max(24px, calc((100vw - 1440px) / 2));
+    box-sizing: border-box;
+
     background-color: #e8e8e8;
     border-radius: 48px;
 }
@@ -1092,7 +1131,7 @@
     border-radius: 100px;
 }
 
-@media (max-width: 1024px) {
+@media (min-width: 875px) and (max-width: 1024px) {
 
     img,
     video {
@@ -1100,20 +1139,26 @@
     }
 
     .kv-sec {
+        width: 100%;
         height: 100vh;
         height: 100dvh;
         min-height: 640px;
-        background-size: cover;
-        background-position: center center;
         overflow: hidden;
     }
 
+    .kv-sec video {
+        display: block;
+        width: 100%;
+        max-width: none;
+        height: 100%;
+        object-fit: cover;
+    }
+
     .about-sec {
-        height: 100vh;
-        height: 100dvh;
         min-height: 100vh;
         min-height: 100dvh;
-        padding: 0;
+        height: auto;
+        padding: clamp(96px, 12vw, 140px) 0;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1121,7 +1166,9 @@
     }
 
     .about-sec .container {
-        width: 100%;
+        width: calc(100% - 40px);
+        max-width: 984px;
+        margin-inline: auto;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1137,8 +1184,8 @@
 
     .about-sec .about-con>img {
         display: block;
-        width: min(100%, 70vw);
-        max-width: 560px;
+        width: clamp(320px, 42vw, 560px);
+        max-width: 100%;
         height: auto;
         margin: 0 auto;
         opacity: 1;
@@ -1155,7 +1202,7 @@
     }
 
     .about-desc {
-        font-size: clamp(20px, 3.2vw, 32px);
+        font-size: clamp(24px, 3.2vw, 32px);
         font-weight: 600;
         line-height: 1.5;
         letter-spacing: -0.02em;
@@ -1163,8 +1210,8 @@
     }
 
     .btn-point {
-        font-size: var(--btn-point-text-size);
-        padding: clamp(8px, 1vw, 10px) clamp(18px, 2.8vw, 28px);
+        font-size: clamp(16px, 2.2vw, 22px);
+        padding: clamp(8px, 1vw, 10px) clamp(18px, 2.8vw, 30px);
         max-width: 100%;
     }
 
@@ -1177,12 +1224,22 @@
 
     .intro-title,
     .intro-2-title {
+        margin-bottom: clamp(32px, 4.8vw, 50px);
         padding: 0 clamp(8px, 2vw, 16px);
+        line-height: 1.45;
         word-break: keep-all;
+        overflow-wrap: break-word;
+    }
+
+    .intro-desc {
+        line-height: 1.5;
+        word-break: keep-all;
+        overflow-wrap: break-word;
     }
 
     .promotion-sec {
-        height: fit-content;
+        height: auto;
+        min-height: 760px;
         padding: clamp(72px, 9vw, 110px) 0;
         box-sizing: border-box;
         overflow-x: clip;
@@ -1197,8 +1254,9 @@
     }
 
     .promotion-sec .container {
-        padding-bottom: clamp(40px, 7vw, 72px);
         min-width: 0;
+        height: auto;
+        padding-bottom: clamp(40px, 7vw, 72px);
     }
 
     .promotion-wrap {
@@ -1214,6 +1272,7 @@
     .white-circle li {
         width: 31%;
         font-size: clamp(11px, 1.5vw, 16px);
+        line-height: 1.35;
         white-space: normal;
         padding: 0 4px;
         box-sizing: border-box;
@@ -1235,6 +1294,7 @@
         font-size: clamp(10px, 1.3vw, 15px);
         flex-wrap: wrap;
         white-space: normal;
+        justify-content: center;
     }
 
     .orange-amount span {
@@ -1244,8 +1304,9 @@
     .warrning {
         left: clamp(20px, 4.6vw, 48px);
         bottom: clamp(28px, 5vw, 64px);
-        font-size: clamp(11px, 1.4vw, 14px);
         max-width: calc(100% - clamp(40px, 9vw, 96px));
+        font-size: clamp(11px, 1.4vw, 14px);
+        line-height: 1.5;
     }
 
     .merit-sec {
@@ -1257,10 +1318,12 @@
         justify-content: center;
         align-items: center;
         box-sizing: border-box;
+        overflow: hidden;
     }
 
     .merit-1-wrap,
     .merit-2-wrap {
+        width: 100%;
         max-width: 100%;
         padding: 0;
     }
@@ -1276,8 +1339,8 @@
     }
 
     .merit-line img {
-        height: clamp(120px, 20vw, 188px);
         width: auto;
+        height: clamp(120px, 20vw, 188px);
         max-width: 100%;
         object-fit: contain;
     }
@@ -1292,15 +1355,16 @@
     }
 
     .merit-2-desc {
-        font-size: clamp(15px, 2vw, 18px);
-        padding: 0 clamp(4px, 2vw, 16px);
         max-width: 36em;
+        padding: 0 clamp(4px, 2vw, 16px);
+        font-size: clamp(15px, 2vw, 18px);
+        line-height: 1.6;
     }
 
     .merit-1 .merit-text,
     .merit-2 .merit-text {
-        white-space: normal;
         max-width: 100%;
+        white-space: normal;
     }
 
     .merit-1 .merit-reveal,
@@ -1346,6 +1410,12 @@
     .Satisfaction-con-title {
         margin-bottom: clamp(16px, 2.4vw, 24px);
         word-break: keep-all;
+        overflow-wrap: break-word;
+    }
+
+    .Satisfaction-con-desc {
+        word-break: keep-all;
+        overflow-wrap: break-word;
     }
 
     .Satisfaction-con>img {
@@ -1370,6 +1440,7 @@
     .review {
         font-size: clamp(13px, 1.7vw, 17px);
         word-break: keep-all;
+        overflow-wrap: break-word;
     }
 
     .quotes-wrap img {
@@ -1397,6 +1468,7 @@
     .slide-sec {
         height: 100vh;
         height: 100dvh;
+        min-height: 640px;
     }
 
     .slide {
@@ -1408,10 +1480,12 @@
     }
 
     .slide-title {
-        font-size: clamp(28px, 5vw, 52px);
-        margin-bottom: clamp(18px, 3.2vw, 36px);
-        word-break: keep-all;
         max-width: 100%;
+        margin-bottom: clamp(18px, 3.2vw, 36px);
+        font-size: clamp(28px, 5vw, 52px);
+        line-height: 1.25;
+        word-break: keep-all;
+        overflow-wrap: break-word;
     }
 
     .slide .subtitle {
@@ -1419,14 +1493,15 @@
     }
 
     .slide .desc {
-        margin-bottom: clamp(32px, 6vw, 56px);
         max-width: min(100%, 28em);
+        margin-bottom: clamp(32px, 6vw, 56px);
         word-break: keep-all;
+        overflow-wrap: break-word;
     }
 
     .slide .btn {
         padding: clamp(8px, 1vw, 10px) clamp(18px, 2.8vw, 28px);
-        font-size: var(--btn-input-text-size);
+        font-size: clamp(14px, 1.8vw, 18px);
     }
 
     .pagenation {
@@ -1452,6 +1527,7 @@
     .effect-desc {
         max-width: 100%;
         word-break: keep-all;
+        overflow-wrap: break-word;
     }
 
     .effect-desc {
@@ -1482,8 +1558,11 @@
 
     .card-top>img,
     .card-bottom>img {
+        display: block;
         width: 100%;
         height: 100%;
+        max-width: 100%;
+        max-height: 100%;
         object-fit: cover;
         border-radius: inherit;
     }
@@ -1512,15 +1591,17 @@
 
     .card-text-bottom>h3,
     .card-text-top>h3 {
-        font-size: clamp(15px, 2.3vw, 22px);
-        margin-bottom: 8px;
         margin-top: 8px;
+        margin-bottom: 8px;
+        font-size: clamp(15px, 2.3vw, 22px);
+        line-height: 1.15;
         word-break: keep-all;
     }
 
     .card-text-bottom>p,
     .card-text-top>p {
         font-size: clamp(11px, 1.5vw, 14px);
+        line-height: 1.4;
     }
 
     .card-text-top>img,
@@ -1532,7 +1613,7 @@
     .contact-sec {
         padding: clamp(72px, 10vw, 112px) 0;
         background-size: cover;
-        background-position: center;
+        background-position: center center;
         overflow-x: clip;
     }
 
@@ -1553,10 +1634,11 @@
 
     .contact-form {
         width: 100%;
-        max-width: 100%;
-        padding: clamp(32px, 5.4vw, 64px) clamp(20px, 4.2vw, 48px);
-        border-radius: clamp(24px, 3.6vw, 40px);
+        padding: 120px max(24px, calc((100vw - 1440px) / 2));
         box-sizing: border-box;
+
+        background-color: #e8e8e8;
+        border-radius: 48px;
     }
 
     .contact-form-fields {
@@ -1606,9 +1688,10 @@
 
     .contact-agree {
         flex-wrap: wrap;
+        max-width: 100%;
         font-size: clamp(12px, 1.55vw, 15px);
         text-align: center;
-        max-width: 100%;
+        line-height: 1.5;
     }
 
     .contact-submit {
@@ -1618,35 +1701,62 @@
     }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 874px) {
     .kv-sec {
+        width: 100%;
         min-height: 100vh;
         min-height: 100dvh;
         height: 100vh;
         height: 100dvh;
         background-size: cover;
         background-position: center center;
+        overflow: hidden;
+    }
+
+    .kv-sec video {
+        display: block;
+        width: 100%;
+        max-width: none;
+        height: 100%;
+        object-fit: cover;
     }
 
     .about-sec {
-        height: 100vh;
-        height: 100dvh;
         min-height: 100vh;
-        padding: 0 clamp(8px, 2vw, 12px);
+        min-height: 100dvh;
+        height: auto;
+        padding: clamp(72px, 18vw, 96px) 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+    }
+
+    .about-sec .container {
+        width: calc(100% - 40px);
+        max-width: none;
     }
 
     .about-con {
-        gap: clamp(20px, 6vw, 32px);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: clamp(24px, 7vw, 36px);
+        text-align: center;
     }
 
     .about-sec .about-con>img {
         width: min(86vw, 340px);
         max-width: 100%;
-        height: auto;
     }
 
     .about-text {
-        width: min(92%, 360px);
+        width: min(100%, 360px);
+        max-width: 360px;
+        margin: 0 auto;
+        min-width: 0;
+        flex: none;
+        text-align: center;
     }
 
     .about-desc {
@@ -1655,6 +1765,7 @@
     }
 
     .btn-point {
+        font-size: clamp(14px, 4vw, 18px);
         padding: 8px 18px;
     }
 
@@ -1669,10 +1780,13 @@
         padding: 0;
         line-height: 1.45;
         word-break: keep-all;
+        overflow-wrap: break-word;
     }
 
     .intro-desc {
         line-height: 1.55;
+        word-break: keep-all;
+        overflow-wrap: break-word;
     }
 
     .promotion-sec {
@@ -1685,8 +1799,10 @@
     }
 
     .promotion-sec .container {
-        padding-bottom: clamp(24px, 8vw, 40px);
+        width: calc(100% - 40px);
+        max-width: none;
         height: auto;
+        padding-bottom: clamp(24px, 8vw, 40px);
         justify-content: center;
     }
 
@@ -1699,10 +1815,6 @@
 
     .promotion-wrap::before {
         display: none;
-        flex: 0;
-        width: 0;
-        height: 0;
-        margin: 0;
     }
 
     .white-circle {
@@ -1716,9 +1828,9 @@
     .white-circle li {
         width: 30%;
         max-width: 118px;
+        padding: 0 6px;
         font-size: clamp(11px, 3.2vw, 14px);
         line-height: 1.35;
-        padding: 0 6px;
         white-space: normal;
     }
 
@@ -1731,35 +1843,48 @@
     }
 
     .orange-label {
-        font-size: 22px;
-        margin-bottom: 15px;
+        margin-bottom: clamp(10px, 3vw, 15px);
+        font-size: clamp(16px, 5.5vw, 22px);
     }
 
     .orange-amount {
-        font-size: 22px;
+        font-size: clamp(16px, 5.5vw, 22px);
         flex-wrap: nowrap;
         white-space: nowrap;
     }
 
     .orange-amount span {
-        font-size: 42px;
+        font-size: clamp(34px, 11vw, 42px);
+    }
+
+    .warrning {
+        left: 20px;
+        right: 20px;
+        max-width: none;
+        font-size: 11px;
     }
 
     .merit-sec {
-        padding: 0 clamp(12px, 4vw, 20px);
+        padding: 0 20px;
     }
 
     .merit-1 {
         font-size: clamp(18px, 5.4vw, 22px);
     }
 
+    .merit-1-desc {
+        margin-top: 16px;
+    }
+
     .merit-line {
+        width: 100%;
         margin: 16px 0 20px;
     }
 
     .merit-line img {
-        height: clamp(88px, 28vw, 120px);
+        width: auto;
         max-width: 100%;
+        height: clamp(88px, 28vw, 120px);
     }
 
     .merit-line-fill {
@@ -1772,8 +1897,14 @@
     }
 
     .merit-2-desc {
-        font-size: clamp(13px, 3.8vw, 16px);
+        max-width: 100%;
         padding: 0;
+        font-size: clamp(13px, 3.8vw, 16px);
+        line-height: 1.55;
+    }
+
+    .merit-1-desc .merit-text,
+    .merit-2-desc .merit-text {
         max-width: 100%;
     }
 
@@ -1794,7 +1925,8 @@
     }
 
     .Satisfaction-con-title {
-        color: var(--color-primary);
+        margin-bottom: 16px;
+        word-break: keep-all;
     }
 
     .Satisfaction-copy {
@@ -1816,31 +1948,43 @@
 
     .Satisfaction-list li {
         padding: 20px 16px;
+        border-radius: 16px;
     }
 
     .review {
         font-size: clamp(14px, 3.8vw, 16px);
+        line-height: 1.55;
     }
 
     .comparison-sec {
-        padding: clamp(72px, 18vw, 96px) 0;
+        padding: clamp(72px, 18vw, 96px) 20px;
         background-size: cover;
         background-position: center;
+        box-sizing: border-box;
+    }
+
+    .comparison-btn {
+        max-width: 100%;
+        text-align: center;
     }
 
     .slide-sec {
         height: 100vh;
         height: 100dvh;
+        min-height: 640px;
     }
 
     .slide {
-        padding: 0 clamp(20px, 6vw, 28px) 0 clamp(40px, 12vw, 52px);
+        padding: 0 clamp(24px, 7vw, 40px) 0 clamp(40px, 12vw, 52px);
     }
 
     .slide-title {
-        font-size: clamp(22px, 7vw, 32px);
+        max-width: 100%;
         margin-bottom: 16px;
+        font-size: clamp(22px, 7vw, 32px);
         line-height: 1.25;
+        word-break: keep-all;
+        overflow-wrap: break-word;
     }
 
     .slide .subtitle {
@@ -1848,8 +1992,15 @@
     }
 
     .slide .desc {
-        margin-bottom: 28px;
         max-width: 100%;
+        margin-bottom: 28px;
+        word-break: keep-all;
+        overflow-wrap: break-word;
+    }
+
+    .slide .btn {
+        padding: 8px 18px;
+        font-size: 14px;
     }
 
     .pagenation {
@@ -1879,123 +2030,38 @@
     }
 
     .effect-sec {
-        padding: clamp(48px, 14vw, 72px) 0 max(56vh, var(--effect-clearance, 56vh));
+        padding: 60px 0;
     }
 
     .effect-desc {
         margin-bottom: 28px;
+        line-height: 1.55;
     }
 
     .card-wrap {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
+        column-gap: 10px;
+        row-gap: 5px;
     }
 
     .effect-card {
-        width: 100%;
-        gap: 10px;
+        min-width: 0;
     }
 
-    .card-top,
-    .effect-card>img,
-    .card-bottom {
+    .effect-card>img {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        aspect-ratio: 342 / 400;
+        object-fit: cover;
         border-radius: 16px;
     }
 
-    .card-text-bottom>h3,
-    .card-text-top>h3 {
-        font-size: clamp(14px, 4vw, 18px);
-        margin-bottom: 6px;
-        margin-top: 6px;
-    }
-
-    .card-text-bottom>p,
-    .card-text-top>p {
-        font-size: clamp(10px, 2.8vw, 12px);
-    }
-
-    .effect-sec .card-wrap .effect-card {
-        --effect-panel-gap: clamp(14px, 2.8vw, 26px);
-        --effect-text-inset: clamp(12px, 1.8vw, 20px);
-        overflow: visible;
-    }
-
-    .effect-sec .card-wrap .effect-card .card-top,
-    .effect-sec .card-wrap .effect-card .card-bottom {
-        overflow: visible;
-    }
-
-    .effect-sec .card-wrap .effect-card:nth-child(1) .card-bottom,
-    .effect-sec .card-wrap .effect-card:nth-child(2) .card-bottom {
-        visibility: hidden;
-        pointer-events: none;
-    }
-
-    .effect-sec .card-wrap .effect-card:nth-child(1) .card-bottom .card-text-bottom,
-    .effect-sec .card-wrap .effect-card:nth-child(2) .card-bottom .card-text-bottom {
-        visibility: visible;
-        pointer-events: auto;
-        display: flex;
-        flex-direction: column-reverse;
-        align-items: flex-start;
-        top: auto;
-        bottom: calc(200% + (2 * var(--effect-panel-gap)) + var(--effect-text-inset));
-        left: clamp(10px, 1.8vw, 20px);
-        right: clamp(8px, 1.4vw, 16px);
-        max-width: 100%;
-        box-sizing: border-box;
-    }
-
-    .effect-sec .card-wrap .effect-card:nth-child(1) .card-text-bottom>h3,
-    .effect-sec .card-wrap .effect-card:nth-child(2) .card-text-bottom>h3 {
-        margin-top: 6px;
-        margin-bottom: 0;
-    }
-
-    .effect-sec .card-wrap .effect-card:nth-child(1) .card-text-bottom>p,
-    .effect-sec .card-wrap .effect-card:nth-child(2) .card-text-bottom>p {
-        margin-top: 6px;
-        margin-bottom: 0;
-    }
-
-    .effect-sec .card-wrap .effect-card:nth-child(2) .card-text-top {
-        visibility: hidden;
-        pointer-events: none;
-    }
-
-    .effect-sec .card-wrap .effect-card:nth-child(3) .card-top,
-    .effect-sec .card-wrap .effect-card:nth-child(4) .card-top {
-        visibility: hidden;
-        pointer-events: none;
-    }
-
-    .effect-sec .card-wrap .effect-card:nth-child(4) .card-top {
-        z-index: 2;
-    }
-
-    .effect-sec .card-wrap .effect-card:nth-child(4) .card-top .card-text-top {
-        visibility: visible;
-        pointer-events: auto;
-        display: flex;
-        flex-direction: column-reverse;
-        align-items: flex-start;
-        bottom: auto;
-        top: calc(200% + (2 * var(--effect-panel-gap)) + var(--effect-text-inset));
-        left: clamp(10px, 1.8vw, 20px);
-        right: clamp(8px, 1.4vw, 16px);
-        max-width: 100%;
-        box-sizing: border-box;
-    }
-
-    .effect-sec .card-wrap .effect-card:nth-child(4) .card-text-top>h3 {
-        margin-top: 0;
-        margin-bottom: 6px;
-    }
-
-    .effect-sec .card-wrap .effect-card:nth-child(4) .card-text-top>p {
-        margin-top: 0;
-        margin-bottom: 6px;
+    .card-top,
+    .card-bottom {
+        display: none;
     }
 
     .contact-sec {
@@ -2022,12 +2088,18 @@
     }
 
     .contact-form-fields {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         gap: 16px;
     }
 
+    .contact-form-left,
+    .contact-form-right {
+        gap: 16px;
+        min-width: 0;
+    }
+
     .contact-field {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         row-gap: 8px;
         align-items: start;
     }
@@ -2050,12 +2122,22 @@
     .contact-form input[type="tel"],
     .contact-form select,
     .contact-form textarea {
+        width: 100%;
+        max-width: 100%;
         height: 44px;
         font-size: 14px;
+        min-width: 0;
     }
 
     .contact-form textarea {
         height: 120px;
+        padding: 12px 14px;
+    }
+
+    .contact-phone {
+        flex-wrap: nowrap;
+        gap: 6px;
+        min-width: 0;
     }
 
     .contact-phone select {
@@ -2065,8 +2147,13 @@
 
     .contact-agree {
         justify-content: flex-start;
-        text-align: left;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        max-width: 100%;
+        margin-bottom: 20px;
         font-size: 12px;
+        line-height: 1.5;
+        text-align: left;
         gap: 6px;
     }
 

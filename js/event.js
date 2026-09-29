@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
         initEventWave();
     });
     initEventPopup();
+    bindEventMobileTabs();
     bindEventMobileMedia();
 });
 
@@ -43,9 +44,10 @@ function initEventWave() {
     );
 }
 
-var EVENT_MOBILE_QUERY = "(max-width: 874px) and (min-width: 402px)";
+var EVENT_MOBILE_QUERY = "(max-width: 874px)";
 var eventSlider = null;
 var eventMediaBound = false;
+var eventAutoplayTimer = null;
 var eventOriginalItems = [];
 
 function isEventMobile() {
@@ -179,7 +181,81 @@ function initEventPopup() {
 
 function getEventOriginalItems(track) {
     return Array.prototype.filter.call(track.children, function (item) {
-        return item.getAttribute("data-clone") !== "true";
+        return (
+            item.getAttribute("data-clone") !== "true" &&
+            item.style.display !== "none"
+        );
+    });
+}
+
+function applyEventTab(tabIndex) {
+    var section = document.querySelector(".event-sec");
+    var track;
+    var tabs;
+    var items;
+
+    if (!section || !isEventMobile()) {
+        return;
+    }
+
+    track = section.querySelector(".event-list");
+    tabs = section.querySelectorAll(".tab-menu .tab-item");
+
+    if (!track) {
+        return;
+    }
+
+    stopEventAutoplay();
+
+    Array.prototype.slice.call(track.querySelectorAll("[data-clone]")).forEach(function (node) {
+        node.parentNode.removeChild(node);
+    });
+
+    items = Array.prototype.slice.call(track.children);
+
+    items.forEach(function (item, index) {
+        var isVisible;
+
+        if (tabIndex === 0) {
+            isVisible = true;
+        } else if (tabIndex === 1) {
+            isVisible = index < 4;
+        } else {
+            isVisible = index >= 4;
+        }
+
+        item.style.display = isVisible ? "" : "none";
+    });
+
+    Array.prototype.forEach.call(tabs, function (tab, index) {
+        tab.classList.toggle("active", index === tabIndex);
+    });
+
+    if (eventSlider) {
+        eventSlider.animating = false;
+        eventSlider.dragged = false;
+        eventSlider.currentIndex = 0;
+        eventSlider.visualIndex = 1;
+
+        rebuildEventMobileSlider();
+        startEventAutoplay();
+    }
+}
+
+function bindEventMobileTabs() {
+    var section = document.querySelector(".event-sec");
+    var tabs;
+
+    if (!section) {
+        return;
+    }
+
+    tabs = section.querySelectorAll(".tab-menu .tab-item");
+
+    Array.prototype.forEach.call(tabs, function (tab, index) {
+        tab.addEventListener("click", function () {
+            applyEventTab(index);
+        });
     });
 }
 
@@ -502,6 +578,30 @@ function initEventMobileSlider() {
 
     bindEventMobileSliderEvents();
     rebuildEventMobileSlider();
+    startEventAutoplay();
+}
+
+function startEventAutoplay() {
+    stopEventAutoplay();
+
+    if (!eventSlider || !isEventMobile() || eventSlider.items.length <= 1) {
+        return;
+    }
+
+    eventAutoplayTimer = window.setInterval(function () {
+        if (!eventSlider || eventSlider.animating) {
+            return;
+        }
+
+        goToEventSlide(eventSlider.currentIndex + 1, "next");
+    }, 3000);
+}
+
+function stopEventAutoplay() {
+    if (eventAutoplayTimer) {
+        window.clearInterval(eventAutoplayTimer);
+        eventAutoplayTimer = null;
+    }
 }
 
 function destroyEventMobileSlider() {
@@ -511,6 +611,7 @@ function destroyEventMobileSlider() {
         return;
     }
 
+    stopEventAutoplay();
     unbindEventMobileSliderEvents();
 
     Array.prototype.slice.call(eventSlider.track.querySelectorAll("[data-clone]")).forEach(function (node) {
@@ -526,6 +627,17 @@ function destroyEventMobileSlider() {
         item.style.minWidth = "";
         item.style.maxWidth = "";
     });
+
+    Array.prototype.slice.call(eventSlider.track.children).forEach(function (item) {
+        item.style.display = "";
+    });
+
+    Array.prototype.forEach.call(
+        eventSlider.section.querySelectorAll(".tab-menu .tab-item"),
+        function (tab, index) {
+            tab.classList.toggle("active", index === 0);
+        }
+    );
 
     eventOriginalItems = getEventOriginalItems(eventSlider.track);
     eventSlider = null;

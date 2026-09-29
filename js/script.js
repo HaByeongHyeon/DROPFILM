@@ -943,7 +943,7 @@ function initSlideScroll() {
         }
 
         var targetWidth = 1440;
-        if (window.matchMedia("(max-width: 1024px)").matches) {
+        if (window.matchMedia("(max-width: 1025px)").matches) {
             targetWidth = Math.min(width * 0.88, width - 40);
         }
 
@@ -1280,6 +1280,8 @@ function initEffectScroll() {
         existing.kill();
     }
 
+    var isMobile = window.matchMedia("(max-width: 874px)").matches;
+
     var cardY = [-90, -30, 30, 90];
 
     function getCardYs() {
@@ -1289,13 +1291,25 @@ function initEffectScroll() {
             return Math.round(value * ratio);
         });
     }
+
     var intro = [];
 
     if (title) {
         intro.push(title);
     }
+
     if (desc) {
         intro.push(desc);
+    }
+
+    if (isMobile) {
+        gsap.set(wrap, { clearProps: "transform" });
+        gsap.set(cards, { y: 0 });
+        gsap.set(cardTops, { opacity: 1, y: 0 });
+        gsap.set(cardBottoms, { opacity: 1, y: 0 });
+        gsap.set(intro, { opacity: 1, clearProps: "transform" });
+        section.style.setProperty("--effect-clearance", "56vh");
+        return;
     }
 
     function getWrapCenterY() {
@@ -1321,7 +1335,8 @@ function initEffectScroll() {
 
         minTop = 16;
         headerEl = document.querySelector(".header");
-        if (window.matchMedia("(max-width: 1024px)").matches && headerEl) {
+
+        if (window.matchMedia("(max-width: 1025px)").matches && headerEl) {
             minTop = headerEl.offsetHeight + 16;
         }
 
@@ -1346,6 +1361,7 @@ function initEffectScroll() {
         gsap.set(wrap, { y: currentY });
 
         start = wrapCenter - window.innerHeight / 2;
+
         slideST = ScrollTrigger.getById("slide-pin");
 
         if (slideST && start < slideST.end) {
@@ -1357,11 +1373,16 @@ function initEffectScroll() {
 
     function getCardGap() {
         var card = wrap.querySelector(".effect-card");
+
         if (!card) {
             return 40;
         }
 
-        var gap = parseFloat(window.getComputedStyle(card).rowGap || window.getComputedStyle(card).gap);
+        var gap = parseFloat(
+            window.getComputedStyle(card).rowGap ||
+            window.getComputedStyle(card).gap
+        );
+
         return isNaN(gap) ? 40 : gap;
     }
 
@@ -1381,14 +1402,18 @@ function initEffectScroll() {
 
         var shift = Math.max(0, getWrapCenterY());
         var extra = Math.ceil(shift + maxDown + gap + cardH + 48);
-        var minPad = window.matchMedia("(max-width: 1024px)").matches ? extra : Math.max(680, extra);
+        var minPad = window.matchMedia("(max-width: 1025px)").matches
+            ? extra
+            : Math.max(680, extra);
 
         section.style.setProperty("--effect-clearance", minPad + "px");
     }
 
     updateEffectClearance();
+
     if (section.dataset.effectRefreshBound !== "1") {
         section.dataset.effectRefreshBound = "1";
+
         ScrollTrigger.addEventListener("refreshInit", updateEffectClearance);
     }
 
@@ -1399,19 +1424,37 @@ function initEffectScroll() {
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         gsap.set(wrap, { y: getWrapCenterY() });
+
         Array.prototype.forEach.call(cards, function (card, index) {
-            gsap.set(card, { y: getCardYs()[index] || 0 });
+            gsap.set(card, {
+                y: getCardYs()[index] || 0
+            });
         });
-        gsap.set(cardTops, { opacity: 1, y: 0 });
-        gsap.set(cardBottoms, { opacity: 1, y: 0 });
-        gsap.set(intro, { opacity: 0, y: 0 });
+
+        gsap.set(cardTops, {
+            opacity: 1,
+            y: 0
+        });
+
+        gsap.set(cardBottoms, {
+            opacity: 1,
+            y: 0
+        });
+
+        gsap.set(intro, {
+            opacity: 0,
+            y: 0
+        });
+
         return;
     }
 
     var hold = { value: 0 };
 
     var timeline = gsap.timeline({
-        defaults: { ease: "none" },
+        defaults: {
+            ease: "none"
+        },
         scrollTrigger: {
             id: "effect-pin",
             trigger: section,
@@ -1425,6 +1468,7 @@ function initEffectScroll() {
             invalidateOnRefresh: true,
             onUpdate: function () {
                 var headerST = ScrollTrigger.getById("header-hide");
+
                 if (headerST) {
                     headerST.update();
                 }
@@ -1434,7 +1478,9 @@ function initEffectScroll() {
 
     timeline.fromTo(
         wrap,
-        { y: 0 },
+        {
+            y: 0
+        },
         {
             y: getWrapCenterY,
             duration: 0.3,
@@ -1443,30 +1489,47 @@ function initEffectScroll() {
     );
 
     if (intro.length) {
-        timeline.to(intro, {
-            opacity: 0,
-            y: -24,
-            duration: 0.8,
-            immediateRender: false
-        }, 0);
+        timeline.to(
+            intro,
+            {
+                opacity: 0,
+                y: -24,
+                duration: 0.8,
+                immediateRender: false
+            },
+            0
+        );
     }
 
-    timeline.to(hold, { value: 1, duration: 0.4 });
-
-    Array.prototype.forEach.call(cards, function (card, index) {
-        timeline.to(card, {
-            y: function () {
-                return getCardYs()[index] || 0;
-            },
-            duration: 1.2
-        }, "cards");
+    timeline.to(hold, {
+        value: 1,
+        duration: 0.4
     });
 
-    timeline.to(hold, { value: 2, duration: 0.5 });
+    Array.prototype.forEach.call(cards, function (card, index) {
+        timeline.to(
+            card,
+            {
+                y: function () {
+                    return getCardYs()[index] || 0;
+                },
+                duration: 1.2
+            },
+            "cards"
+        );
+    });
+
+    timeline.to(hold, {
+        value: 2,
+        duration: 0.5
+    });
 
     timeline.fromTo(
         cardTops,
-        { opacity: 0, y: -40 },
+        {
+            opacity: 0,
+            y: -40
+        },
         {
             opacity: 1,
             y: 0,
@@ -1478,7 +1541,10 @@ function initEffectScroll() {
 
     timeline.fromTo(
         cardBottoms,
-        { opacity: 0, y: 40 },
+        {
+            opacity: 0,
+            y: 40
+        },
         {
             opacity: 1,
             y: 0,
@@ -1488,7 +1554,10 @@ function initEffectScroll() {
         "reveal"
     );
 
-    timeline.to(hold, { value: 3, duration: 0.8 });
+    timeline.to(hold, {
+        value: 3,
+        duration: 0.8
+    });
 }
 
 function initContactForm() {

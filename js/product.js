@@ -7,7 +7,7 @@ $(function () {
     });
 });
 
-var PRODUCT_MOBILE_QUERY = "(max-width: 874px) and (min-width: 402px)";
+var PRODUCT_MOBILE_QUERY = "(max-width: 874px)";
 
 function isProductMobile() {
     return window.matchMedia(PRODUCT_MOBILE_QUERY).matches;
