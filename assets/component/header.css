@@ -80,20 +80,16 @@
     align-items: center;
     justify-content: center;
 
-    min-width: clamp(100px, 6.25vw, 120px);
-    height: clamp(36px, 2.08vw, 40px);
-    padding: 0 clamp(16px, 1.15vw, 22px);
+    padding: 10px 30px;
 
     font-family: var(--font-family);
-    font-size: clamp(14px, 0.83vw, 16px);
+    font-size: 18px;
     font-weight: 600;
-    line-height: 1;
     color: #111;
 
     background-color: #fff;
     border-radius: 100px;
     box-sizing: border-box;
-    white-space: nowrap;
 }
 
 .header-btn a:hover {
@@ -353,14 +349,6 @@
     .header-btn {
         flex-shrink: 0;
         margin-left: 0;
-    }
-
-    .header-btn a {
-        min-width: 0;
-        height: clamp(32px, 3.8vw, 38px);
-        padding: 0 clamp(12px, 1.7vw, 18px);
-
-        font-size: clamp(12px, 1.4vw, 15px);
     }
 
     .header-overlay {
