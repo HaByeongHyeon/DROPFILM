@@ -107,7 +107,7 @@
     display: none;
 }
 
-@media (max-width: 1024px) and (min-width: 875px) {
+@media (max-width: 1024px) and (min-width: 768px) {
     [data-component="header"] {
         overflow: visible;
     }
@@ -326,7 +326,7 @@
     }
 }
 
-@media (max-width: 874px) and (min-width: 402px) {
+@media (max-width: 767px) {
     [data-component="header"] {
         overflow: visible;
     }

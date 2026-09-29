@@ -1092,8 +1092,7 @@
     border-radius: 100px;
 }
 
-@media (max-width: 1024px) and (min-width: 875px),
-(max-width: 874px) and (min-width: 402px) {
+@media (max-width: 1024px)  {
     img,
     video {
         max-width: 100%;
@@ -1618,7 +1617,7 @@
     }
 }
 
-@media (max-width: 874px) and (min-width: 402px) {
+@media (max-width: 767px) {
     .kv-sec {
         min-height: 100vh;
         min-height: 100dvh;
@@ -1823,7 +1822,7 @@
     }
 
     .comparison-sec {
-        padding: clamp(48px, 14vw, 72px) 0;
+        padding: clamp(72px, 18vw, 96px) 0;
         background-size: cover;
         background-position: center;
     }

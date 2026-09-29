@@ -289,7 +289,7 @@
 
 }
 
-@media (max-width: 1024px) and (min-width: 875px) {
+@media (max-width: 1024px) and (min-width: 768px) {
     .container {
         width: calc(100% - 40px);
         max-width: 984px;
@@ -423,7 +423,7 @@
     }
 }
 
-@media (max-width: 874px) and (min-width: 402px) {
+@media (max-width: 767px) {
     .container {
         width: calc(100% - 40px);
         max-width: none;

@@ -94,7 +94,7 @@
     object-fit: contain;
 }
 
-@media (max-width: 1024px) and (min-width: 875px) {
+@media (max-width: 1024px) and (min-width: 768px) {
     .footer {
         padding: clamp(36px, 6vw, 64px) 0;
         overflow-x: clip;
@@ -145,7 +145,7 @@
     }
 }
 
-@media (max-width: 874px) and (min-width: 402px) {
+@media (max-width: 767px) {
     .footer {
         padding: clamp(32px, 10vw, 48px) 0;
         overflow-x: clip;
