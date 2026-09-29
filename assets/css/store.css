@@ -252,22 +252,23 @@
 
 .store-sec .store-info ul {
     display: flex;
-    justify-content: space-between;
-    align-items: start;
-    gap: 26px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
 }
 
 .store-sec .store-info li {
-    width: 100%;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    text-align: center;
+    width: 100%;
+    min-width: 0;
+    text-align: left;
 }
 
 .store-sec .store-info li p {
-    width: 100%;
-    padding: 5px 0px;
+    flex: 0 0 120px;
+    width: 120px;
+    padding: 5px 0;
     border-radius: 5px;
     background-color: rgba(68, 58, 50, 0.3);
     box-sizing: border-box;
@@ -276,18 +277,24 @@
     font-size: 16px;
     font-weight: 500;
     line-height: 1.5;
+    text-align: center;
 }
 
 .store-sec .store-info li span {
     display: block;
-    margin-top: 10px;
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-left: 20px;
     font-family: var(--font-family);
     font-size: 16px;
     font-weight: 500;
     line-height: 1.5;
     color: var(--color-primary);
-
+    text-align: left;
+    overflow-wrap: break-word;
+    word-break: keep-all;
 }
+
 
 @media (max-width: 1024px) and (min-width: 875px) {
     .container {
@@ -399,29 +406,38 @@
     }
 
     .store-sec .store-info ul {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        display: flex;
+        flex-direction: column;
         gap: 8px;
     }
 
     .store-sec .store-info li {
+        display: flex;
+        align-items: center;
         min-width: 0;
     }
 
     .store-sec .store-info li p {
+        flex: 0 0 96px;
+        width: 96px;
         padding: 4px 4px;
         font-size: 12px;
+        text-align: center;
         overflow-wrap: break-word;
         word-break: keep-all;
     }
 
     .store-sec .store-info li span {
-        margin-top: 8px;
+        flex: 1 1 auto;
+        min-width: 0;
+        margin-left: 12px;
         font-size: 12px;
+        text-align: left;
         overflow-wrap: break-word;
         word-break: keep-all;
     }
 }
+
 
 @media (max-width: 874px) {
     .container {
@@ -680,5 +696,4 @@
     .store-sec .store-slider-count {
         display: none;
     }
-
 }
