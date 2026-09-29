@@ -206,13 +206,13 @@ body {
     min-width: 0;
 }
 
-.product-sec .camera-img > li {
+.product-sec .camera-img>li {
     display: none;
     flex-direction: column;
     gap: 16px;
 }
 
-.product-sec .camera-img > li.active {
+.product-sec .camera-img>li.active {
     display: flex;
 }
 
@@ -225,7 +225,7 @@ body {
     padding: 8px;
     border: 2px solid transparent;
     border-radius: 18px;
-    background-color:#EFECE5;
+    background-color: #EFECE5;
     box-sizing: border-box;
     overflow: hidden;
     cursor: pointer;
@@ -276,12 +276,17 @@ body {
     align-self: center;
 }
 
-.product-sec .camera-info > .title-1 {
+.product-sec .camera-info>.title-1 {
+    display: none;
     margin: 0;
     color: var(--color-point);
 }
 
-.product-sec .camera-info > .desc {
+.product-sec .camera-info>.title-1.is-active {
+    display: block;
+}
+
+.product-sec .camera-info>.desc {
     margin: 12px 0 0;
     font-size: var(--card-title-18-size);
     font-weight: var(--card-title-18-weight);
@@ -289,7 +294,7 @@ body {
     color: var(--color-primary);
 }
 
-.product-sec .camera-info > .price {
+.product-sec .camera-info>.price {
     display: block;
     margin-top: 16px;
     font-size: 24px;
@@ -397,7 +402,7 @@ body {
         width: 100%;
     }
 
-    .product-sec .camera-img > li.active {
+    .product-sec .camera-img>li.active {
         flex-direction: row;
         justify-content: center;
         align-items: center;
@@ -418,21 +423,25 @@ body {
         margin-top: 16px;
     }
 
-    .product-sec .camera-info > .title-1 {
+    .product-sec .camera-info>.title-1 {
         grid-column: 1;
         font-size: clamp(28px, 3.4vw, 36px);
         font-weight: 600;
         line-height: 1.2;
     }
 
-    .product-sec .camera-info > .desc {
+    .product-sec .camera-info>.title-1.is-active {
+        display: block;
+    }
+
+    .product-sec .camera-info>.desc {
         grid-column: 1;
         margin-top: 10px;
         font-size: clamp(14px, 1.7vw, 18px);
         line-height: 1.45;
     }
 
-    .product-sec .camera-info > .price {
+    .product-sec .camera-info>.price {
         grid-column: 1;
         margin-top: 18px;
         font-size: clamp(20px, 2.4vw, 24px);
@@ -645,7 +654,7 @@ body {
         isolation: isolate;
     }
 
-    .product-sec .detail-main-img > img.detail-main-fallback {
+    .product-sec .detail-main-img>img.detail-main-fallback {
         display: none;
     }
 
@@ -702,7 +711,7 @@ body {
         width: 100%;
     }
 
-    .product-sec .camera-img > li.active {
+    .product-sec .camera-img>li.active {
         flex-direction: row;
         justify-content: center;
         align-items: center;
@@ -726,19 +735,23 @@ body {
         text-align: left;
     }
 
-    .product-sec .camera-info > .title-1 {
+    .product-sec .camera-info>.title-1 {
         font-size: 28px;
         font-weight: 600;
         line-height: 1.2;
     }
 
-    .product-sec .camera-info > .desc {
+    .product-sec .camera-info>.title-1.is-active {
+        display: block;
+    }
+
+    .product-sec .camera-info>.desc {
         margin-top: 8px;
         font-size: 16px;
         line-height: 1.4;
     }
 
-    .product-sec .camera-info > .price {
+    .product-sec .camera-info>.price {
         margin-top: 12px;
         font-size: 22px;
     }
@@ -754,6 +767,451 @@ body {
 
     .product-sec .spec-label,
     .product-sec .spec-value {
+        font-size: 14px;
+        overflow-wrap: break-word;
+        word-break: keep-all;
+    }
+}
+
+/* =========================================
+   FILM DETAIL
+========================================= */
+
+.product-sec.is-film-detail {
+    width: 100%;
+    padding: 0 0 120px;
+}
+
+.product-sec.is-film-detail .container {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.product-sec.is-film-detail .container {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 400px);
+    gap: 48px 56px;
+    align-items: center;
+    min-width: 0;
+}
+
+
+/* -----------------------------------------
+   FILM IMAGE
+----------------------------------------- */
+
+.product-sec.is-film-detail .film-img {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.product-sec.is-film-detail .film-img>li {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    aspect-ratio: 1.58 / 1;
+    padding: clamp(40px, 4vw, 56px) clamp(32px, 3.5vw, 48px);
+    border-radius: 48px;
+    background-color: #EFECE5;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.product-sec.is-film-detail .film-img>li.active {
+    display: flex;
+}
+
+.product-sec.is-film-detail .film-img>li:first-child {
+    display: flex;
+}
+
+.product-sec.is-film-detail .film-img img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 78%;
+    max-height: 86%;
+    object-fit: contain;
+    flex: none;
+}
+
+
+/* -----------------------------------------
+   FILM INFO
+----------------------------------------- */
+
+.product-sec.is-film-detail .film-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    max-width: 100%;
+    align-self: center;
+}
+
+
+/* -----------------------------------------
+   TITLE
+----------------------------------------- */
+
+.product-sec.is-film-detail .film-info>.title-1 {
+    display: none;
+    margin: 0;
+    min-width: 0;
+    color: var(--color-point);
+    font-family: var(--font-family);
+    font-size: clamp(30px, 3vw, 40px);
+    font-weight: 600;
+    line-height: 1.2;
+    overflow-wrap: break-word;
+    word-break: keep-all;
+}
+
+.product-sec.is-film-detail .film-info>.title-1.active {
+    display: block;
+}
+
+
+/* -----------------------------------------
+   DESC
+----------------------------------------- */
+
+.product-sec.is-film-detail .film-info>.desc {
+    display: block;
+    min-width: 0;
+    margin: 8px 0 0;
+    padding: 0;
+    list-style: none;
+    color: var(--color-primary);
+    font-family: var(--font-family);
+    font-size: var(--card-title-18-size);
+    font-weight: var(--card-title-18-weight);
+    line-height: 1.4;
+}
+
+.product-sec.is-film-detail .film-info>.desc>li {
+    display: none;
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: keep-all;
+}
+
+.product-sec.is-film-detail .film-info>.desc>li.active {
+    display: block;
+}
+
+.product-sec.is-film-detail .film-info>.desc>li:first-child {
+    display: block;
+}
+
+
+/* -----------------------------------------
+   PRICE
+----------------------------------------- */
+
+.product-sec.is-film-detail .film-info>.price {
+    display: block;
+    min-width: 0;
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+    color: var(--color-primary);
+    font-family: var(--font-family);
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.product-sec.is-film-detail .film-info>.price>li {
+    display: none;
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: keep-all;
+}
+
+.product-sec.is-film-detail .film-info>.price>li.active {
+    display: block;
+}
+
+.product-sec.is-film-detail .film-info>.price>li:first-child {
+    display: block;
+}
+
+
+/* -----------------------------------------
+   PRODUCT SPEC HEAD
+----------------------------------------- */
+
+.product-sec.is-film-detail .product-spec-head {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    margin: 52px 0 20px;
+}
+
+.product-sec.is-film-detail .product-spec-title {
+    flex: 0 0 auto;
+    padding: 7px 30px;
+    border-radius: 100px;
+    background-color: var(--color-point);
+    color: #fff;
+    font-family: var(--font-family);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+.product-sec.is-film-detail .product-spec-line {
+    flex: 1 1 auto;
+    width: 100%;
+    min-width: 0;
+    height: 1px;
+    background-color: var(--color-point);
+}
+
+
+/* -----------------------------------------
+   INFO CONTENT
+----------------------------------------- */
+
+.product-sec.is-film-detail .info-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+}
+
+
+/* -----------------------------------------
+   SPEC ROW
+----------------------------------------- */
+
+.product-sec.is-film-detail .info-content .spec-row {
+    display: grid;
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+}
+
+.product-sec.is-film-detail .info-content .spec-row+.spec-row {
+    margin-top: 12px;
+}
+
+
+/* -----------------------------------------
+   SPEC LABEL
+----------------------------------------- */
+
+.product-sec.is-film-detail .info-content .spec-row>span {
+    min-width: 0;
+    color: #737373;
+    font-family: var(--font-family);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.5;
+    overflow-wrap: break-word;
+    word-break: keep-all;
+}
+
+
+/* -----------------------------------------
+   STATIC SPEC VALUE
+----------------------------------------- */
+
+.product-sec.is-film-detail .info-content .spec-row>.type,
+.product-sec.is-film-detail .info-content .spec-row>.spec-value {
+    min-width: 0;
+    color: #101010;
+    font-family: var(--font-family);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    overflow-wrap: break-word;
+    word-break: keep-all;
+}
+
+
+/* -----------------------------------------
+   DYNAMIC SPEC LIST
+----------------------------------------- */
+
+.product-sec.is-film-detail .info-content .spec-row>ul {
+    display: block;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: #101010;
+    font-family: var(--font-family);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.product-sec.is-film-detail .info-content .spec-row>ul>li {
+    display: none;
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: keep-all;
+}
+
+.product-sec.is-film-detail .info-content .spec-row>ul>li.active {
+    display: block;
+}
+
+.product-sec.is-film-detail .info-content .spec-row>ul>li:first-child {
+    display: block;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1024px) and (min-width: 875px) {
+
+    .product-sec.is-film-detail {
+        padding: 0 0 100px;
+    }
+
+    .product-sec.is-film-detail .container {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 36px 0;
+        align-items: stretch;
+    }
+
+    .product-sec.is-film-detail .film-img {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .product-sec.is-film-detail .film-img>li {
+        aspect-ratio: 2 / 1;
+        padding: clamp(32px, 5vw, 56px) clamp(28px, 5vw, 48px);
+        border-radius: 36px;
+    }
+
+    .product-sec.is-film-detail .film-img img {
+        max-width: 78%;
+        max-height: 86%;
+    }
+
+    .product-sec.is-film-detail .film-info {
+        width: 100%;
+        max-width: 100%;
+        margin-top: 16px;
+    }
+
+    .product-sec.is-film-detail .film-info>.title-1 {
+        font-size: clamp(28px, 3.4vw, 36px);
+    }
+
+    .product-sec.is-film-detail .product-spec-head {
+        margin-top: 44px;
+        margin-bottom: 16px;
+    }
+
+    .product-sec.is-film-detail .info-content .spec-row {
+        grid-template-columns: 76px minmax(0, 1fr);
+        gap: 12px 16px;
+    }
+
+    .product-sec.is-film-detail .info-content .spec-row>span,
+    .product-sec.is-film-detail .info-content .spec-row>span+span,
+    .product-sec.is-film-detail .info-content .spec-row>ul {
+        font-size: 15px;
+        overflow-wrap: break-word;
+        word-break: keep-all;
+    }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 874px) {
+
+    .product-sec.is-film-detail {
+        padding: 0 0 72px;
+    }
+
+    .product-sec.is-film-detail .container {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 28px 0;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .product-sec.is-film-detail .film-img {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .product-sec.is-film-detail .film-img>li {
+        aspect-ratio: 1.15 / 1;
+        padding: 28px 16px;
+        border-radius: 28px;
+    }
+
+    .product-sec.is-film-detail .film-img img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .product-sec.is-film-detail .film-info {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        margin-top: 8px;
+    }
+
+    .product-sec.is-film-detail .film-info>.title-1 {
+        font-size: 28px;
+    }
+
+    .product-sec.is-film-detail .film-info>.desc {
+        margin-top: 8px;
+        font-size: 16px;
+    }
+
+    .product-sec.is-film-detail .film-info>.price {
+        margin-top: 12px;
+        font-size: 22px;
+    }
+
+    .product-sec.is-film-detail .product-spec-head {
+        margin-top: 28px;
+        margin-bottom: 16px;
+    }
+
+    .product-sec.is-film-detail .product-spec-title {
+        padding: 7px 24px;
+        font-size: 14px;
+    }
+
+    .product-sec.is-film-detail .info-content .spec-row {
+        grid-template-columns: 72px minmax(0, 1fr);
+        gap: 8px 12px;
+    }
+
+    .product-sec.is-film-detail .info-content .spec-row>span,
+    .product-sec.is-film-detail .info-content .spec-row>span+span,
+    .product-sec.is-film-detail .info-content .spec-row>ul {
         font-size: 14px;
         overflow-wrap: break-word;
         word-break: keep-all;

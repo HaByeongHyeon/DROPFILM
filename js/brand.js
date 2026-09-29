@@ -351,7 +351,7 @@ function initVisionSlider() {
         return;
     }
 
-    var mq = window.matchMedia("(max-width: 874px)");
+    var mq = window.matchMedia("(max-width: 874px) and (min-width: 402px)");
     var swiper = null;
     var slider = null;
     var pagination = null;

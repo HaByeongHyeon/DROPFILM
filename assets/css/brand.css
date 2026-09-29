@@ -1,6 +1,6 @@
 .header {
     background-color: var(--color-primary);
-    background-image:none;
+    background-image: none;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     border-bottom: none;
@@ -72,6 +72,7 @@
     width: 100%;
     height: auto;
 }
+
 /* ============================================ */
 
 .Specialness-sec {
@@ -607,7 +608,7 @@
         height: 86%;
     }
 
-    .Specialness-sec .top > img {
+    .Specialness-sec .top>img {
         width: 46%;
         height: 400px;
         object-fit: cover;
@@ -681,8 +682,8 @@
         overflow-x: clip;
     }
 
-    .system-sec > img {
-        width: min(140%, 960px);
+    .system-sec>img {
+        width: 100%;
         top: 58%;
     }
 
@@ -702,11 +703,11 @@
         gap: clamp(10px, 1.6vw, 16px);
     }
 
-    .system-img-wrap > div {
+    .system-img-wrap>div {
         gap: clamp(10px, 1.6vw, 16px);
     }
 
-    .system-img-wrap > div:nth-child(2) {
+    .system-img-wrap>div:nth-child(2) {
         margin-top: clamp(24px, 4.2vw, 40px);
     }
 
@@ -835,7 +836,7 @@
         display: none;
     }
 
-    .Specialness-sec .top > img {
+    .Specialness-sec .top>img {
         width: 100%;
         height: 400px;
         object-fit: cover;
@@ -893,8 +894,8 @@
         overflow-x: clip;
     }
 
-    .system-sec > img {
-        width: min(160%, 640px);
+    .system-sec>img {
+        width: 100%;
         top: 56%;
     }
 
@@ -914,11 +915,11 @@
         gap: clamp(6px, 2vw, 10px);
     }
 
-    .system-img-wrap > div {
+    .system-img-wrap>div {
         gap: clamp(6px, 2vw, 10px);
     }
 
-    .system-img-wrap > div:nth-child(2) {
+    .system-img-wrap>div:nth-child(2) {
         margin-top: clamp(14px, 4vw, 20px);
     }
 
