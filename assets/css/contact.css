@@ -19,6 +19,7 @@
 
 .contact-sec .title-wrap .title-2 {
     color: var(--color-primary);
+    font-weight: 700;
 }
 
 .contact-sec .title-wrap .desc {

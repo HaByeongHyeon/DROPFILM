@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     loadComponents().then(function () {
         initHeader();
         initFranchiseWave();
+        initSystemListFadeUp();
         initKvSlider();
         initPlanSticky();
         initPlanTabs();
@@ -46,6 +47,66 @@ function initFranchiseWave() {
     initTriggeredWave(".system-title-wrap", "franchise-system-wave", ".point, .system-title", "top 80%");
     initTriggeredWave(".backup-head", "franchise-backup-wave", ".backup-desc, .title-1", "top 80%");
     initTriggeredWave(".contact-sec", "franchise-contact-wave", ".contact-title, .contact-desc", "top 80%");
+}
+
+function initSystemListFadeUp() {
+    var section = document.querySelector(".system-sec");
+    var items;
+    var timeline;
+
+    if (!section) {
+        return;
+    }
+
+    if (
+        typeof gsap === "undefined" ||
+        typeof ScrollTrigger === "undefined"
+    ) {
+        return;
+    }
+
+    items = section.querySelectorAll(".system-list > li");
+
+    if (!items.length) {
+        return;
+    }
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.set(items, {
+        opacity: 0,
+        y: 40
+    });
+
+    if (typeof prefersReducedMotion === "function" && prefersReducedMotion()) {
+        gsap.set(items, {
+            opacity: 1,
+            y: 0
+        });
+        return;
+    }
+
+    timeline = gsap.timeline({
+        paused: true
+    });
+
+    timeline.to(items, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: "power2.out",
+        stagger: 0.3
+    });
+
+    ScrollTrigger.create({
+        id: "franchise-system-list",
+        trigger: section,
+        start: "top 40%",
+        once: true,
+        onEnter: function () {
+            timeline.play();
+        }
+    });
 }
 
 function initKvSlider() {

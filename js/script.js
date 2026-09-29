@@ -49,7 +49,7 @@ function waitForWindowLoad() {
 
 function waitForFonts() {
     if (document.fonts && document.fonts.ready) {
-        return document.fonts.ready.catch(function () {});
+        return document.fonts.ready.catch(function () { });
     }
 
     return Promise.resolve();
@@ -60,7 +60,7 @@ function waitForImages() {
 
     return Promise.all(imgs.map(function (img) {
         if (img.complete && img.naturalWidth) {
-            return img.decode ? img.decode().catch(function () {}) : Promise.resolve();
+            return img.decode ? img.decode().catch(function () { }) : Promise.resolve();
         }
 
         return new Promise(function (resolve) {
@@ -487,8 +487,87 @@ function initAboutScroll() {
 }
 
 function initIntroWave() {
-    initTriggeredWave(".intro-sec", "intro-wave", ".intro-title, .intro-desc", "top 85%");
-    initTriggeredWave(".intro-2-sec", "intro-2-wave", getSectionWaveTargets, "center center", ".intro-2-title");
+    initTriggeredWave(
+        ".intro-sec",
+        "intro-wave",
+        ".intro-title, .intro-desc",
+        "top 85%"
+    );
+
+    initIntro2Wave();
+}
+
+function initIntro2Wave() {
+    var section = document.querySelector(".intro-2-sec");
+    var title;
+    var waveLines;
+    var timeline;
+
+    if (!section) {
+        return;
+    }
+
+    title = section.querySelector(".intro-2-title");
+
+    if (!title) {
+        return;
+    }
+
+    if (
+        typeof gsap === "undefined" ||
+        typeof ScrollTrigger === "undefined"
+    ) {
+        console.error("GSAP / ScrollTrigger is not loaded.");
+        return;
+    }
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    killScrollTriggerById("intro-2-wave");
+
+    waveLines = getWaveLineTargets(title);
+
+    if (!waveLines.length) {
+        return;
+    }
+
+    gsap.set(title, {
+        opacity: 0
+    });
+
+    setWaveLetters(waveLines, WAVE_Y);
+
+    if (prefersReducedMotion()) {
+        gsap.set(title, {
+            opacity: 1
+        });
+
+        setWaveLetters(waveLines, 0);
+        return;
+    }
+
+    timeline = gsap.timeline({
+        scrollTrigger: {
+            id: "intro-2-wave",
+            trigger: title,
+            start: "center center",
+            toggleActions: "play none none reverse",
+            invalidateOnRefresh: true
+        }
+    });
+
+    timeline.to(title, {
+        opacity: 1,
+        duration: 0.3,
+        ease: "power2.out"
+    });
+
+    addWaveSequence(
+        timeline,
+        waveLines,
+        "<",
+        true
+    );
 }
 
 function initSatisfactionWave() {
