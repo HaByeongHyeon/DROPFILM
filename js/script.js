@@ -1,3 +1,8 @@
+const videoElement = document.querySelector('video');
+videoElement.play().catch(error => {
+    console.log(error);
+});
+
 document.addEventListener("DOMContentLoaded", function () {
     var componentsReady = loadComponents().then(function () {
         initHeader();
@@ -49,7 +54,7 @@ function waitForWindowLoad() {
 
 function waitForFonts() {
     if (document.fonts && document.fonts.ready) {
-        return document.fonts.ready.catch(function () {});
+        return document.fonts.ready.catch(function () { });
     }
 
     return Promise.resolve();
@@ -60,7 +65,7 @@ function waitForImages() {
 
     return Promise.all(imgs.map(function (img) {
         if (img.complete && img.naturalWidth) {
-            return img.decode ? img.decode().catch(function () {}) : Promise.resolve();
+            return img.decode ? img.decode().catch(function () { }) : Promise.resolve();
         }
 
         return new Promise(function (resolve) {
