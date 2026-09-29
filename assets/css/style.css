@@ -1610,7 +1610,11 @@
     }
 }
 
+<<<<<<< HEAD
 @media (max-width: 767px) {
+=======
+@media (max-width: 874px) and (min-width: 393px) {
+>>>>>>> parent of 57f3ae5 (back)
     .kv-sec {
         min-height: 100vh;
         min-height: 100dvh;
