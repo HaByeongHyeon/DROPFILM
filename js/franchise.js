@@ -183,7 +183,7 @@ function initPlanSticky() {
     var wrap = section && section.querySelector(".plan-wrap");
     var planA = wrap && wrap.querySelector(".plan-a");
     var planB = wrap && wrap.querySelector(".plan-b");
-    var mq = window.matchMedia("(min-width: 875px)");
+    var mq = window.matchMedia("(min-width: 768px)");
 
     if (!section || !planA || !planB) {
         return;
