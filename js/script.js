@@ -1,3 +1,8 @@
+const videoElement = document.querySelector('video');
+videoElement.play().catch(error => {
+    console.log(error);
+});
+
 document.addEventListener("DOMContentLoaded", function () {
     var componentsReady = loadComponents().then(function () {
         initHeader();
@@ -484,6 +489,10 @@ function initAboutScroll() {
     } else {
         img.addEventListener("load", start, { once: true });
     }
+}
+
+function initIntroWave() {
+    initTriggeredWave(".intro-sec", "intro-wave", ".intro-title, .intro-desc", "top 85%");
 }
 
 function initSatisfactionWave() {
