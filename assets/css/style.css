@@ -1145,14 +1145,6 @@
         flex-shrink: 0;
     }
 
-    .about-text {
-        width: min(92%, 640px);
-        margin: 0 auto;
-        min-width: 0;
-        flex: none;
-        text-align: center;
-    }
-
     .about-desc {
         font-size: clamp(20px, 3.2vw, 32px);
         font-weight: 600;
@@ -1642,10 +1634,6 @@
         width: min(86vw, 340px);
         max-width: 100%;
         height: auto;
-    }
-
-    .about-text {
-        width: min(92%, 360px);
     }
 
     .about-desc {
