@@ -43,7 +43,7 @@ function initEventWave() {
     );
 }
 
-var EVENT_MOBILE_QUERY = "(max-width: 767px)";
+var EVENT_MOBILE_QUERY = "(max-width: 874px) and (min-width: 402px)";
 var eventSlider = null;
 var eventMediaBound = false;
 var eventOriginalItems = [];
