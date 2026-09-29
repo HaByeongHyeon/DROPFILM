@@ -1,5 +1,11 @@
 .contact-sec .container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1080px;
+    margin-inline: auto;
     padding: 200px 0 120px;
+    box-sizing: border-box;
 }
 
 .contact-sec .title-wrap {
@@ -20,14 +26,6 @@
     font-weight: 400;
     line-height: 1.5;
     color: var(--color-primary);
-}
-
-.contact-sec .tab-menu {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin: 0 0 60px;
 }
 
 .contact-sec .tab-item {
@@ -53,22 +51,23 @@
     color: #fff;
 }
 
-.contact-sec .inquiry-title,
-.contact-sec .contact-form {
-    display: none;
-}
-
-.contact-sec.is-inquiry .faq-title,
-.contact-sec.is-inquiry .faq-list {
-    display: none;
-}
-
-.contact-sec.is-inquiry .inquiry-title {
+.contact-sec .inquiry-title {
     display: flex;
+    order: 1;
 }
 
-.contact-sec.is-inquiry .contact-form {
+.contact-sec .contact-form {
     display: block;
+    order: 2;
+}
+
+.contact-sec .faq-title {
+    order: 3;
+    margin-top: 140px;
+}
+
+.contact-sec .faq-list {
+    order: 4;
 }
 
 .contact-sec .contact-form {
@@ -100,7 +99,7 @@
     column-gap: 16px;
 }
 
-.contact-sec .contact-field > label {
+.contact-sec .contact-field>label {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -112,7 +111,7 @@
     white-space: nowrap;
 }
 
-.contact-sec .contact-field > label::before {
+.contact-sec .contact-field>label::before {
     content: "";
     width: 8px;
     height: 8px;
@@ -190,13 +189,13 @@
     align-items: start;
 }
 
-.contact-sec .contact-field-message > label {
+.contact-sec .contact-field-message>label {
     padding-top: 14px;
     padding-left: 0;
     gap: 0;
 }
 
-.contact-sec .contact-field-message > label::before {
+.contact-sec .contact-field-message>label::before {
     display: none;
     content: none;
 }
@@ -331,7 +330,6 @@
         max-width: 984px;
         margin-inline: auto;
         padding: clamp(96px, 12vw, 140px) 0 clamp(80px, 10vw, 120px);
-        box-sizing: border-box;
     }
 
     .contact-sec .title-wrap {
@@ -411,7 +409,7 @@
         min-width: 0;
     }
 
-    .contact-sec .contact-field > label {
+    .contact-sec .contact-field>label {
         font-size: clamp(14px, 1.8vw, 16px);
         gap: 8px;
     }
@@ -481,7 +479,6 @@
         max-width: none;
         margin-inline: auto;
         padding: clamp(88px, 22vw, 120px) 0 64px;
-        box-sizing: border-box;
     }
 
     .contact-sec .title-wrap {
@@ -569,7 +566,7 @@
         min-width: 0;
     }
 
-    .contact-sec .contact-field > label {
+    .contact-sec .contact-field>label {
         font-size: 14px;
         gap: 8px;
         padding-top: 0;
@@ -579,7 +576,7 @@
         grid-column: 1;
     }
 
-    .contact-sec .contact-field-message > label {
+    .contact-sec .contact-field-message>label {
         padding-top: 0;
         padding-left: 0;
     }
